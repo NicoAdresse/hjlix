@@ -5,6 +5,11 @@ use crate::cli::sha::sha_types::ShaTypes;
 use crate::cli::sha::sha_impl::ShaImpl;
 
 #[derive(Parser, Debug, Clone, PartialEq)]
+#[command(
+    name = env!("CARGO_PKG_NAME"),
+    version = env!("CARGO_PKG_VERSION"),
+    long_about = None,
+)]
 pub struct CliArgs {
     #[command(subcommand)]
     command: Commands,
@@ -12,12 +17,13 @@ pub struct CliArgs {
 
 #[derive(Subcommand, Debug, Clone, PartialEq)]
 pub enum Commands {
+    /// Takes a String and puts it in a SHA2 cryptographic algorithm.
     Sha {
-        #[arg(required = true)]
+        #[arg(required = true, help = "Your string")]
         str: String,
-        #[arg(short, long, required = true)]
+        #[arg(short, long, required = true, help = "Your SHA algorithm")]
         sha_type: ShaTypes,
-        #[arg(short, long, default_value_t = false)]
+        #[arg(short, long, default_value_t = false, help = "Writes into a file")]
         write_into_file: bool,
     }
 }
