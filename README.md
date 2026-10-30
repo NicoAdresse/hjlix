@@ -57,3 +57,29 @@ cargo run -- sha "secure message" --sha-type sha512 --write-into-file
 ## License
 
 This project is licensed under the MIT License.
+
+---
+
+## File Structure
+
+```txt
+hjlix
+├── Cargo.toml
+├── Dockerfile
+├── LICENSE
+├── README.md
+└── src
+    ├── cli
+    │   ├── entcli.rs
+    │   ├── misc
+    │   │   ├── about.rs
+    │   │   └── mod.rs
+    │   ├── mod.rs
+    │   └── sha
+    │       ├── digest.rs
+    │       ├── io_err.rs
+    │       ├── mod.rs
+    │       ├── sha_impl.rs
+    │       └── sha_types.rs
+    └── main.rs
+```
