@@ -4,9 +4,7 @@
 pub struct About {}
 
 impl About {
-    pub fn new() -> Self { Self {} }
-
-    pub fn execute(&self) {
+    pub fn execute() {
         let authors = env!("CARGO_PKG_AUTHORS")
             .split(':')
             .collect::<Vec<_>>()
