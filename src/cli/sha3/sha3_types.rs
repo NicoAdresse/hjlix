@@ -2,11 +2,11 @@
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Sha3Types {
-    Keccack224,
-    Keccack256,
-    Keccack384,
-    Keccack512,
-    Keccack256Full,
+    Keccak224,
+    Keccak256,
+    Keccak384,
+    Keccak512,
+    Keccak256Full,
     SHA3_224,
     SHA3_256,
     SHA3_384,
