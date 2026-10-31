@@ -1,6 +1,6 @@
 // src/cli/sha/sha_impl.rs
 
-use crate::cli::sha::sha_types::ShaTypes;
+use crate::cli::sha2::sha2_types::Sha2Types;
 use crate::cli::err::io_err::IOError;
 use crate::cli::consts::constants::FILE_NAME;
 use std::fs::File;
@@ -8,14 +8,14 @@ use std::io::{BufWriter, Write};
 use std::path::Path;
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct ShaImpl {
+pub struct Sha2Impl {
     name: String,
-    sha_type: ShaTypes,
+    sha_type: Sha2Types,
     write_into_file: bool,
 }
 
-impl ShaImpl {
-    pub fn new(name: String, sha_type: ShaTypes, write_into_file: bool) -> Self {
+impl Sha2Impl {
+    pub fn new(name: String, sha_type: Sha2Types, write_into_file: bool) -> Self {
         Self { name, sha_type, write_into_file }
     }
 

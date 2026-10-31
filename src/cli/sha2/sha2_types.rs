@@ -3,7 +3,7 @@
 use clap::ValueEnum;
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
-pub enum ShaTypes {
+pub enum Sha2Types {
     SHA224,
     SHA256,
     SHA512_224,

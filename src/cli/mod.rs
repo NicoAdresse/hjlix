@@ -3,5 +3,5 @@
 pub mod err;
 pub mod consts;
 pub mod misc;
-pub mod sha;
+pub mod sha2;
 pub mod entcli;
