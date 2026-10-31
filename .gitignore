@@ -1,7 +1,6 @@
 # .gitignore
 
 /target
-Cargo.lock
 .DS_Store
 .AppleDouble
 .LSOverride
