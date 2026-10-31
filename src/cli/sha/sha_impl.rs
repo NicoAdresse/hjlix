@@ -1,7 +1,7 @@
 // src/cli/sha/sha_impl.rs
 
 use crate::cli::sha::sha_types::ShaTypes;
-use crate::cli::sha::io_err::IOError;
+use crate::cli::err::io_err::IOError;
 use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::path::Path;
