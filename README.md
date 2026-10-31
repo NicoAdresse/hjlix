@@ -71,13 +71,15 @@ hjlix
 └── src
     ├── cli
     │   ├── entcli.rs
+    │   ├── err
+    │   │   ├── io_err.rs
+    │   │   └── mod.rs
     │   ├── misc
     │   │   ├── about.rs
     │   │   └── mod.rs
     │   ├── mod.rs
     │   └── sha
     │       ├── digest.rs
-    │       ├── io_err.rs
     │       ├── mod.rs
     │       ├── sha_impl.rs
     │       └── sha_types.rs
