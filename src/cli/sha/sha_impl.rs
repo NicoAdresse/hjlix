@@ -2,11 +2,10 @@
 
 use crate::cli::sha::sha_types::ShaTypes;
 use crate::cli::err::io_err::IOError;
+use crate::cli::consts::constants::FILE_NAME;
 use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::path::Path;
-
-const FILE_NAME: &str = "file_with_sha.txt";
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct ShaImpl {
