@@ -1,6 +1,8 @@
 // src/cli/sha3/sha3_types.rs
 
-#[derive(Debug, Clone, PartialEq)]
+use clap::ValueEnum;
+
+#[derive(Debug, Clone, PartialEq, ValueEnum)]
 pub enum Sha3Types {
     Keccak224,
     Keccak256,
