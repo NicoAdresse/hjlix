@@ -82,9 +82,12 @@ cargo run -- about
 hjlix
 ├── Cargo.lock
 ├── Cargo.toml
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
 ├── Dockerfile
 ├── LICENSE
 ├── README.md
+├── SECURITY.md
 └── src
     ├── cli
     │   ├── consts
