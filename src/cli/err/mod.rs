@@ -1,0 +1,1 @@
+// src/cli/err/mod.rs
