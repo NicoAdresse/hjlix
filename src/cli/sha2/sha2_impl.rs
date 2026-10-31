@@ -9,23 +9,23 @@ use std::path::Path;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Sha2Impl {
-    name: String,
+    string: String,
     sha_type: Sha2Types,
     write_into_file: bool,
 }
 
 impl Sha2Impl {
-    pub fn new(name: String, sha_type: Sha2Types, write_into_file: bool) -> Self {
-        Self { name, sha_type, write_into_file }
+    pub fn new(string: String, sha_type: Sha2Types, write_into_file: bool) -> Self {
+        Self { string, sha_type, write_into_file }
     }
 
     pub fn execute(&self) -> Result<(), IOError> {
-        let bytes = self.name.as_bytes();
+        let bytes = self.string.as_bytes();
         let digested_bytes = self.sha_type.digest(bytes);
         let result = hex::encode(digested_bytes);
         
         if !self.write_into_file {
-            println!("Original: {}", self.name);
+            println!("Original: {}", self.string);
             println!("Result: {}", result);
         } else {
             let path = Path::new(FILE_NAME);
