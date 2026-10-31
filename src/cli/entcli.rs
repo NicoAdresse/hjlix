@@ -3,6 +3,7 @@
 use clap::{Parser, Subcommand};
 use crate::cli::sha::{sha_types::ShaTypes, sha_impl::ShaImpl};
 use crate::cli::misc::about::About;
+use crate::cli::consts::constants::*;
 
 #[derive(Parser, Debug, Clone, PartialEq)]
 #[command(
@@ -19,11 +20,11 @@ pub struct CliArgs {
 pub enum Commands {
     /// Takes a String and puts it in a SHA2 cryptographic algorithm.
     Sha {
-        #[arg(required = true, help = "Your string")]
+        #[arg(required = true, help = SHA_STR_HELP)]
         str: String,
-        #[arg(short, long, required = true, help = "Your SHA algorithm")]
+        #[arg(short, long, required = true, help = SHA_TYPE_HELP)]
         sha_type: ShaTypes,
-        #[arg(short, long, default_value_t = false, help = "Writes into a file")]
+        #[arg(short, long, default_value_t = false, help = SHA_WRITE_INTO_FILE_HELP)]
         write_into_file: bool,
     },
     /// Tells the user what hjlix is.
