@@ -2,5 +2,5 @@
 
 pub trait HjlixDigest {
     fn new() -> Self;
-    fn digest(&self, data: dyn AsRef<[u8]>) -> Vec<u8>;
+    fn digest(&self, data: &[u8]) -> Vec<u8>;
 }
