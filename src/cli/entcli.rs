@@ -31,7 +31,7 @@ pub enum Commands {
     /// Takes a String and puts it in a SHA3 cryptographic algorithm.
     Sha3 {
         #[arg(required = true, help = SHA_STR_HELP)]
-        str: String,
+        str: Vec<String>,
         #[arg(short, long, required = true, help = SHA_TYPE_HELP)]
         sha_type: Sha3Types,
         #[arg(short, long, default_value_t = false, help = SHA_WRITE_INTO_FILE_HELP)]

@@ -10,14 +10,14 @@ use crate::cli::traits::digest::HjlixDigest;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Sha3Impl {
-    string: String,
+    strings: Vec<String>,
     sha3_type: Sha3Types,
     write_into_file: bool,
 }
 
 impl Sha3Impl {
-    pub fn new(string: String, sha3_type: Sha3Types, write_into_file: bool) -> Self {
-        Self { string, sha3_type, write_into_file }
+    pub fn new(strings: Vec<String>, sha3_type: Sha3Types, write_into_file: bool) -> Self {
+        Self { strings, sha3_type, write_into_file }
     }
 
     pub fn execute(&self) -> Result<(), IOError> {
