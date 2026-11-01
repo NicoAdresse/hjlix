@@ -10,44 +10,48 @@ use std::path::Path;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Sha2Impl {
-    string: Vec<String>,
+    strings: Vec<String>,
     sha_type: Sha2Types,
     write_into_file: bool,
 }
 
 impl Sha2Impl {
-    pub fn new(string: Vec<String>, sha_type: Sha2Types, write_into_file: bool) -> Self {
+    pub fn new(strings: Vec<String>, sha_type: Sha2Types, write_into_file: bool) -> Self {
         Self {
-            string,
+            strings,
             sha_type,
             write_into_file,
         }
     }
 
     pub fn execute(&self) -> Result<(), IOError> {
-        let bytes = self.string.as_bytes();
-        let digested_bytes = self.sha_type.digest(bytes);
-        let result = hex::encode(digested_bytes);
+        let mut buf_writer = BufWriter::new(file);
 
-        if !self.write_into_file {
-            println!("Original: {}", self.string);
-            println!("Result: {}", result);
-        } else {
-            let path = Path::new(FILE_NAME);
+        for str in &self.strings {
+            let bytes = str.as_bytes();
+            let digested_bytes = self.sha_type.digest(bytes);
+            let result = hex::encode(digested_bytes);
 
-            if path.exists() {
-                return Err(IOError::FileAlreadyExists);
+            if !self.write_into_file {
+                println!("Original: {}", str);
+                println!("Result: {}", result);
+            } else {
+                let path = Path::new(FILE_NAME);
+
+                if path.exists() {
+                    return Err(IOError::FileAlreadyExists);
+                }
+
+                let file = File::create(path).map_err(|_| IOError::FailedToCreateFile)?;
+                let mut buf_writer = BufWriter::new(file);
+
+                writeln!(buf_writer, "{}", result).map_err(|_| IOError::FailedToWrite)?;
             }
-
-            let file = File::create(path).map_err(|_| IOError::FailedToCreateFile)?;
-            let mut buf_writer = BufWriter::new(file);
-
-            writeln!(buf_writer, "{}", result).map_err(|_| IOError::FailedToWrite)?;
-
-            buf_writer
-                .flush()
-                .map_err(|_| IOError::FailedToFlushBufWriter)?;
         }
+
+        buf_writer
+            .flush()
+            .map_err(|_| IOError::FailedToFlushBufWriter)?;
 
         Ok(())
     }
