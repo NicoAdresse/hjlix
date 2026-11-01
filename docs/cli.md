@@ -10,5 +10,17 @@ The tool is modularly organized. You can interact with it using specific subcomm
 - `sha3`: Computes hashes using the SHA-3/Keccak family.
 - `about`: Displays metadata about the project, including version and authorship.
 
+### Examples
+
+**SHA-2:**
+```bash
+hjlix sha2 "Hello, World!" --sha-type sha384
+```
+
+**SHA-3/Keccak:**
+```bash
+hjlix sha3 "Hello, World!" --sha-type sha3-512
+```
+
 ### Global Options
 - `--write-into-file`: When provided, the output is saved to `file_with_sha.txt` in the current directory instead of being printed to stdout.

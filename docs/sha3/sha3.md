@@ -18,5 +18,10 @@ SHA-3 (Secure Hash Algorithm 3) is the latest member of the Secure Hash Algorith
 - **Keccak-512**
 - **Keccak-256-Full**
 
+## Usage Example
+```bash
+hjlix sha3 "Hello, World!" --sha-type sha3-512
+```
+
 ## Note on Keccak vs. SHA-3
 While SHA-3 is based on Keccak, there are subtle differences in the padding and input processing between the original Keccak submissions and the final NIST SHA-3 standard. `hjlix` allows you to choose exactly which implementation you need.

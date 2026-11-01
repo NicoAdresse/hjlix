@@ -10,5 +10,10 @@ The SHA-2 (Secure Hash Algorithm 2) family is a set of cryptographic hash functi
 - **SHA-512/224**
 - **SHA-512/256**
 
+## Usage Example
+```bash
+hjlix sha2 "Hello, World!" --sha-type sha384
+```
+
 ## Use Case
 SHA-2 is widely used for data integrity verification, digital signatures, and password hashing (when combined with proper salting/key stretching).
