@@ -6,6 +6,7 @@ use std::io::{BufWriter, Write};
 use crate::cli::sha3::sha3_types::Sha3Types;
 use crate::cli::err::io_err::IOError;
 use crate::cli::consts::constants::FILE_NAME;
+use crate::cli::traits::digest::HjlixDigest;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Sha3Impl {

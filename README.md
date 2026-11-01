@@ -95,6 +95,8 @@ Display information about `hjlix`:
 cargo run -- about
 ```
 
+Check [docs](./docs) for more information.
+
 ---
 
 ## File Structure
@@ -106,6 +108,12 @@ hjlix
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
 ├── Dockerfile
+├── docs
+│   ├── cli.md
+│   ├── sha2
+│   │   └── sha2.md
+│   └── sha3
+│       └── sha3.md
 ├── LICENSE
 ├── README.md
 ├── SECURITY.md
@@ -123,15 +131,16 @@ hjlix
     │   │   └── mod.rs
     │   ├── mod.rs
     │   ├── sha2
-    │   │   ├── digest.rs
     │   │   ├── mod.rs
     │   │   ├── sha2_impl.rs
     │   │   └── sha2_types.rs
-    │   └── sha3
+    │   ├── sha3
+    │   │   ├── mod.rs
+    │   │   ├── sha3_impl.rs
+    │   │   └── sha3_types.rs
+    │   └── traits
     │       ├── digest.rs
-    │       ├── mod.rs
-    │       ├── sha3_impl.rs
-    │       └── sha3_types.rs
+    │       └── mod.rs
     └── main.rs
 ```
 

@@ -1,5 +1,6 @@
 // src/cli/sha/sha_impl.rs
 
+use crate::cli::traits::digest::HjlixDigest;
 use crate::cli::sha2::sha2_types::Sha2Types;
 use crate::cli::err::io_err::IOError;
 use crate::cli::consts::constants::FILE_NAME;

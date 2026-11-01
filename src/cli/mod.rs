@@ -6,3 +6,4 @@ pub mod misc;
 pub mod sha2;
 pub mod sha3;
 pub mod entcli;
+pub mod traits;
