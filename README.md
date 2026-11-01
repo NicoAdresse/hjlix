@@ -99,53 +99,6 @@ Check [docs](./docs) for more information.
 
 ---
 
-## File Structure
-
-```txt
-hjlix
-├── Cargo.lock
-├── Cargo.toml
-├── CODE_OF_CONDUCT.md
-├── CONTRIBUTING.md
-├── Dockerfile
-├── docs
-│   ├── cli.md
-│   ├── sha2
-│   │   └── sha2.md
-│   └── sha3
-│       └── sha3.md
-├── LICENSE
-├── README.md
-├── SECURITY.md
-└── src
-    ├── cli
-    │   ├── consts
-    │   │   ├── constants.rs
-    │   │   └── mod.rs
-    │   ├── entcli.rs
-    │   ├── err
-    │   │   ├── io_err.rs
-    │   │   └── mod.rs
-    │   ├── misc
-    │   │   ├── about.rs
-    │   │   └── mod.rs
-    │   ├── mod.rs
-    │   ├── sha2
-    │   │   ├── mod.rs
-    │   │   ├── sha2_impl.rs
-    │   │   └── sha2_types.rs
-    │   ├── sha3
-    │   │   ├── mod.rs
-    │   │   ├── sha3_impl.rs
-    │   │   └── sha3_types.rs
-    │   └── traits
-    │       ├── digest.rs
-    │       └── mod.rs
-    └── main.rs
-```
-
----
-
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](./LICENSE).
