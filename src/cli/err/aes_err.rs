@@ -3,4 +3,7 @@
 #[derive(Debug, Clone, PartialEq)]
 pub enum AESError {
     InvalidKeyLength,
+    FailedToFigureOutType,
+    FailedToCreateKey,
+    FailedToCreateCiphertext,
 }
