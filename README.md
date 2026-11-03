@@ -6,7 +6,7 @@
 
 - **Multiple SHA-2 Algorithms**: Compute SHA-224, SHA-256, SHA-512/224, SHA-512/256, SHA-384, and SHA-512 hashes.
 - **Multiple SHA-3 & Keccak Algorithms**: Compute SHA3-224, SHA3-256, SHA3-384, SHA3-512, Keccak-224, Keccak-256, Keccak-384, Keccak-512, and Keccak-256-Full hashes.
-- **AES-GCM Support**: Perform AES-GCM encryption and decryption.
+- **AES-GCM Support**: Perform AES-GCM encryption.
 - **File Output Option**: Easily write the computed results directly into files.
 - **About Command**: Quick information about the utility and authors.
 - **Fast & Safe**: Built in Rust using `clap` for robust CLI parsing and secure hashing/encryption crates.
