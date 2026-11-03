@@ -104,7 +104,7 @@ hjlix sha3 "secure message" --sha-type sha3-256 --write-into-file
 
 Perform AES-GCM encryption:
 ```bash
-hjlix aes-gcm "my secret" --aes-gcm-type encrypt
+hjlix aes-gcm "my secret" --aes-gcm-type aes256gcm
 ```
 
 Display information about `hjlix`:
