@@ -13,11 +13,12 @@ pub struct Sha3Impl {
     strings: Vec<String>,
     sha3_type: Sha3Types,
     write_into_file: bool,
+    optional_filename: Option<String>,
 }
 
 impl Sha3Impl {
-    pub fn new(strings: Vec<String>, sha3_type: Sha3Types, write_into_file: bool) -> Self {
-        Self { strings, sha3_type, write_into_file }
+    pub fn new(strings: Vec<String>, sha3_type: Sha3Types, write_into_file: bool, optional_filename: Option<String>) -> Self {
+        Self { strings, sha3_type, write_into_file, optional_filename }
     }
 
     fn init_buffered_writer<P: AsRef<Path>>(
@@ -30,7 +31,8 @@ impl Sha3Impl {
     }
 
     pub fn execute(&self) -> Result<(), IOError> {
-        let path = Path::new(FILE_NAME);
+        let filename = &self.optional_filename.clone().unwrap_or(FILE_NAME.to_owned());
+        let path = Path::new(filename);
 
         let mut buf_writer = if self.write_into_file {
             if path.exists() {
