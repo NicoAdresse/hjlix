@@ -42,6 +42,8 @@ pub enum Commands {
         sha_type: Sha3Types,
         #[arg(short, long, default_value_t = false, help = SHA_WRITE_INTO_FILE_HELP)]
         write_into_file: bool,
+        #[arg(short, long)]
+        optional_filename: Option<String>,
     },
     /// Takes a String and puts it in a AES-GCM cryptographic algorithm.
     AesGcm {
@@ -76,8 +78,9 @@ pub fn run_hjlix() {
             strings,
             sha_type,
             write_into_file,
+            optional_filename,
         } => {
-            let sha_impl = Sha3Impl::new(strings, sha_type, write_into_file);
+            let sha_impl = Sha3Impl::new(strings, sha_type, write_into_file, optional_filename);
 
             if let Err(error) = sha_impl.execute() {
                 eprintln!("Error: {:?}", error);
