@@ -16,11 +16,12 @@ pub struct AESGCMImpl {
     strings: Vec<String>,
     aes_gcm_type: AESGCMTypes,
     write_into_file: bool,
+    optional_filename: Option<String>,
 }
 
 impl AESGCMImpl {
-    pub fn new(strings: Vec<String>, aes_gcm_type: AESGCMTypes, write_into_file: bool) -> Self {
-        Self { strings, aes_gcm_type, write_into_file }
+    pub fn new(strings: Vec<String>, aes_gcm_type: AESGCMTypes, write_into_file: bool, optional_filename: Option<String>) -> Self {
+        Self { strings, aes_gcm_type, write_into_file, optional_filename }
     }
 
     fn generate_key_for_aes_type(&self) -> Vec<u8> {
@@ -83,7 +84,8 @@ impl AESGCMImpl {
         let aes_gcm_type = self.aes_gcm_type.figure_out_type(&key)
             .map_err(|_| AESError::FailedToFigureOutType)?;
 
-        let path = Path::new(FILE_NAME_AES_GCM);
+        let filename = &self.optional_filename.clone().unwrap_or(FILE_NAME_AES_GCM.to_owned());
+        let path = Path::new(filename);
         let file = File::create(path)
             .map_err(|_| IOError::FailedToCreateFile)?;
         let mut buf_writer = BufWriter::new(file);
