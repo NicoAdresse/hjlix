@@ -1,9 +1,5 @@
 // src/cli/aes_gcm/aes_gcm_types.rs
 
-use aes_gcm::{
-    aead::{Aead, KeyInit},
-    Aes128Gcm, Aes256Gcm,
-};
 use clap::ValueEnum;
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
