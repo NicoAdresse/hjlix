@@ -6,7 +6,7 @@ use aes_gcm::{Key, Aes128Gcm, Aes256Gcm, aead::Generate, Nonce};
 use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
 use crate::cli::err::aes_err::AESError;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct AESGCMImpl {
     strings: Vec<String>,
     aes_gcm_type: AESGCMTypes,
@@ -19,11 +19,11 @@ impl AESGCMImpl {
 
     fn generate_key_for_aes_type(&self) -> Vec<u8> {
         match &self.aes_gcm_type {
-            AESGCMTypes::AES128GCM(_) => {
+            AESGCMTypes::AES128GCM => {
                 let key = Key::<Aes128Gcm>::generate();
                 key.to_vec()
             }
-            AESGCMTypes::AES256GCM(_) => {
+            AESGCMTypes::AES256GCM => {
                 let key = Key::<Aes256Gcm>::generate();
                 key.to_vec()
             }
@@ -36,7 +36,7 @@ impl AESGCMImpl {
             .map_err(|_| AESError::FailedToFigureOutType)?;
 
         match aes_gcm_type {
-            AESGCMTypes::AES128GCM(_) => {
+            AESGCMTypes::AES128GCM => {
                 let aes_key = Key::<Aes128Gcm>::try_from(key.as_slice())
                     .map_err(|_| AESError::FailedToCreateKey)?;
                 let cipher = Aes128Gcm::new(&aes_key);
@@ -51,7 +51,7 @@ impl AESGCMImpl {
                     println!("Result: {}", result);
                 }
             },
-            AESGCMTypes::AES256GCM(_) => {
+            AESGCMTypes::AES256GCM => {
                 let aes_key = Key::<Aes256Gcm>::try_from(key.as_slice())
                     .map_err(|_| AESError::FailedToCreateKey)?;
                 let cipher = Aes256Gcm::new(&aes_key);

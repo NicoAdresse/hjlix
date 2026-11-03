@@ -8,7 +8,7 @@ use crate::cli::sha2::{sha2_impl::Sha2Impl, sha2_types::Sha2Types};
 use crate::cli::sha3::{sha3_impl::Sha3Impl, sha3_types::Sha3Types};
 use clap::{Parser, Subcommand};
 
-#[derive(Parser, Debug, Clone)]
+#[derive(Parser, Debug, Clone, PartialEq)]
 #[command(
     name = env!("CARGO_PKG_NAME"),
     version = env!("CARGO_PKG_VERSION"),
@@ -21,7 +21,7 @@ pub struct CliArgs {
 
 #[allow(variant_size_differences)]
 #[allow(clippy::large_enum_variant)]
-#[derive(Subcommand, Debug, Clone)]
+#[derive(Subcommand, Debug, Clone, PartialEq)]
 pub enum Commands {
     /// Takes a String and puts it in a SHA2 cryptographic algorithm.
     Sha2 {
