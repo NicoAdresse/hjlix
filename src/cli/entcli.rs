@@ -87,8 +87,14 @@ pub fn run_hjlix() {
         } => {
             let aes_impl = AESGCMImpl::new(strings, aes_gcm_type, write_into_file);
 
-            if let Err(error) = aes_impl.execute() {
-                eprintln!("Error: {:?}", error);
+            if !write_into_file {
+                if let Err(error) = aes_impl.execute() {
+                    eprintln!("Error: {:?}", error);
+                }
+            } else {
+                if let Err(error) = aes_impl.execute_write_into_file() {
+                    eprintln!("Error: {:?}", error);
+                }
             }
         },
         Commands::About {} => {
