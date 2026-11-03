@@ -31,7 +31,7 @@ pub enum Commands {
         sha_type: Sha2Types,
         #[arg(short, long, default_value_t = false, help = SHA_WRITE_INTO_FILE_HELP)]
         write_into_file: bool,
-        #[arg(short, long)]
+        #[arg(short, long, help = SHA_OPTIONAL_FILENAME_HELP)]
         optional_filename: Option<String>,
     },
     /// Takes a String and puts it in a SHA3 cryptographic algorithm.
@@ -42,7 +42,7 @@ pub enum Commands {
         sha_type: Sha3Types,
         #[arg(short, long, default_value_t = false, help = SHA_WRITE_INTO_FILE_HELP)]
         write_into_file: bool,
-        #[arg(short, long)]
+        #[arg(short, long, help = SHA_OPTIONAL_FILENAME_HELP)]
         optional_filename: Option<String>,
     },
     /// Takes a String and puts it in a AES-GCM cryptographic algorithm.
@@ -53,7 +53,7 @@ pub enum Commands {
         aes_gcm_type: AESGCMTypes,
         #[arg(short, long, default_value_t = false, help = AESGCM_WRITE_INTO_FILE_HELP)]
         write_into_file: bool,
-        #[arg(short, long)]
+        #[arg(short, long, help = AESGCM_OPTIONAL_FILENAME_HELP)]
         optional_filename: Option<String>,
     },
     /// Tells the user what hjlix is.
