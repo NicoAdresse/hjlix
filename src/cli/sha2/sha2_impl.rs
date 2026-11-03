@@ -4,8 +4,7 @@ use crate::cli::consts::constants::FILE_NAME;
 use crate::cli::err::io_err::IOError;
 use crate::cli::sha2::sha2_types::Sha2Types;
 use crate::cli::traits::digest::HjlixDigest;
-use std::fs::File;
-use std::fs::OpenOptions;
+use std::fs::{File, OpenOptions};
 use std::io::{BufWriter, Write};
 use std::path::Path;
 
