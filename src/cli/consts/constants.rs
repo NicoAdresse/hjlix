@@ -2,6 +2,9 @@
 
 pub const FILE_NAME: &str = "file_with_sha.txt";
 pub const FILE_NAME_AES_GCM: &str = "file_with_aes-gcm.txt";
-pub const SHA_STR_HELP: &str = "Your string comes here.";
-pub const SHA_TYPE_HELP: &str = "Your SHA algorithm you pick.";
+pub const SHA_STR_HELP: &str = "Your strings come here and will go through a SHA algorithm.";
+pub const AESGCM_STR_HELP: &str = "Your strings come here and will go through an AES-GCM algorithm.";
+pub const SHA_TYPE_HELP: &str = "The SHA algorithm you pick.";
+pub const AESGCM_TYPE_HELP: &str = "The AES-GCM algorithm you pick.";
 pub const SHA_WRITE_INTO_FILE_HELP: &str = "Writes into a file called 'file_with_sha.txt'.";
+pub const AESGCM_WRITE_INTO_FILE_HELP: &str = "Writes into a file called 'file_with_aes-gcm.txt'.";

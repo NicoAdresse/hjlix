@@ -43,11 +43,11 @@ pub enum Commands {
     },
     /// Takes a String and puts it in a AES-GCM cryptographic algorithm.
     AesGcm {
-        #[arg(required = true)]
+        #[arg(required = true, help = AESGCM_STR_HELP)]
         strings: Vec<String>,
-        #[arg(short, long, required = true)]
+        #[arg(short, long, required = true, help = AESGCM_TYPE_HELP)]
         aes_gcm_type: AESGCMTypes,
-        #[arg(short, long, default_value_t = false)]
+        #[arg(short, long, default_value_t = false, help = AESGCM_WRITE_INTO_FILE_HELP)]
         write_into_file: bool,
     },
     /// Tells the user what hjlix is.
