@@ -53,6 +53,8 @@ pub enum Commands {
         aes_gcm_type: AESGCMTypes,
         #[arg(short, long, default_value_t = false, help = AESGCM_WRITE_INTO_FILE_HELP)]
         write_into_file: bool,
+        #[arg(short, long)]
+        optional_filename: Option<String>,
     },
     /// Tells the user what hjlix is.
     About {},
@@ -89,9 +91,10 @@ pub fn run_hjlix() {
         Commands::AesGcm {
             strings,
             aes_gcm_type,
-            write_into_file
+            write_into_file,
+            optional_filename,
         } => {
-            let aes_impl = AESGCMImpl::new(strings, aes_gcm_type, write_into_file);
+            let aes_impl = AESGCMImpl::new(strings, aes_gcm_type, write_into_file, optional_filename);
 
             if !write_into_file {
                 if let Err(error) = aes_impl.execute() {
