@@ -13,14 +13,16 @@ pub struct Sha2Impl {
     strings: Vec<String>,
     sha_type: Sha2Types,
     write_into_file: bool,
+    optional_filename: Option<String>,
 }
 
 impl Sha2Impl {
-    pub fn new(strings: Vec<String>, sha_type: Sha2Types, write_into_file: bool) -> Self {
+    pub fn new(strings: Vec<String>, sha_type: Sha2Types, write_into_file: bool, optional_filename: Option<String>) -> Self {
         Self {
             strings,
             sha_type,
             write_into_file,
+            optional_filename,
         }
     }
 
