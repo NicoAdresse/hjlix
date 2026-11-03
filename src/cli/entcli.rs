@@ -47,6 +47,8 @@ pub enum Commands {
         strings: Vec<String>,
         #[arg(short, long, required = true)]
         aes_gcm_type: AESGCMTypes,
+        #[arg(short, long, default_value_t = false)]
+        write_into_file: bool,
     },
     /// Tells the user what hjlix is.
     About {},
@@ -80,9 +82,10 @@ pub fn run_hjlix() {
         },
         Commands::AesGcm {
             strings,
-            aes_gcm_type
+            aes_gcm_type,
+            write_into_file
         } => {
-            let aes_impl = AESGCMImpl::new(strings, aes_gcm_type);
+            let aes_impl = AESGCMImpl::new(strings, aes_gcm_type, write_into_file);
 
             if let Err(error) = aes_impl.execute() {
                 eprintln!("Error: {:?}", error);

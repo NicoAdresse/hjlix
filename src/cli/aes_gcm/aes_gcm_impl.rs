@@ -10,11 +10,12 @@ use crate::cli::err::aes_err::AESError;
 pub struct AESGCMImpl {
     strings: Vec<String>,
     aes_gcm_type: AESGCMTypes,
+    write_into_file: bool,
 }
 
 impl AESGCMImpl {
-    pub fn new(strings: Vec<String>, aes_gcm_type: AESGCMTypes) -> Self {
-        Self { strings, aes_gcm_type }
+    pub fn new(strings: Vec<String>, aes_gcm_type: AESGCMTypes, write_into_file: bool) -> Self {
+        Self { strings, aes_gcm_type, write_into_file }
     }
 
     fn generate_key_for_aes_type(&self) -> Vec<u8> {
