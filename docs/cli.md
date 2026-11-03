@@ -54,11 +54,16 @@ hjlix aes-gcm "secret data" --aes-gcm-type aes256gcm
 ├── SECURITY.md
 └── src
     ├── cli
+    │   ├── aes_gcm
+    │   │   ├── aes_gcm_impl.rs
+    │   │   ├── aes_gcm_types.rs
+    │   │   └── mod.rs
     │   ├── consts
     │   │   ├── constants.rs
     │   │   └── mod.rs
     │   ├── entcli.rs
     │   ├── err
+    │   │   ├── aes_err.rs
     │   │   ├── io_err.rs
     │   │   └── mod.rs
     │   ├── misc
@@ -82,7 +87,40 @@ hjlix aes-gcm "secret data" --aes-gcm-type aes256gcm
 ### Cargo Tree
 
 ```txt
-hjlix v0.1.2
+hjlix v0.1.3
+├── aes-gcm v0.11.1
+│   ├── aead v0.6.1
+│   │   ├── crypto-common v0.2.2
+│   │   │   ├── getrandom v0.4.3
+│   │   │   │   ├── cfg-if v1.0.5
+│   │   │   │   ├── libc v0.2.191
+│   │   │   │   └── rand_core v0.10.1
+│   │   │   ├── hybrid-array v0.4.15
+│   │   │   │   └── typenum v1.20.1
+│   │   │   └── rand_core v0.10.1
+│   │   └── inout v0.2.5
+│   │       └── hybrid-array v0.4.15 (*)
+│   ├── aes v0.9.4
+│   │   ├── cipher v0.5.2
+│   │   │   ├── block-buffer v0.12.1
+│   │   │   │   └── hybrid-array v0.4.15 (*)
+│   │   │   ├── crypto-common v0.2.2 (*)
+│   │   │   └── inout v0.2.5 (*)
+│   │   ├── cpubits v0.1.1
+│   │   └── cpufeatures v0.3.1
+│   ├── cipher v0.5.2 (*)
+│   ├── ctr v0.10.1
+│   │   └── cipher v0.5.2 (*)
+│   ├── ctutils v0.4.8
+│   │   └── cmov v0.5.4
+│   └── ghash v0.6.0
+│       └── polyval v0.7.3
+│           ├── cpubits v0.1.1
+│           ├── cpufeatures v0.3.1
+│           └── universal-hash v0.6.1
+│               ├── crypto-common v0.2.2 (*)
+│               └── ctutils v0.4.8 (*)
+├── anyhow v1.0.104
 ├── clap v4.6.7
 │   ├── clap_builder v4.6.7
 │   │   ├── anstream v1.0.0
@@ -111,12 +149,9 @@ hjlix v0.1.2
 │   ├── cfg-if v1.0.5
 │   ├── cpufeatures v0.3.1
 │   └── digest v0.11.3
-│       ├── block-buffer v0.12.1
-│       │   └── hybrid-array v0.4.15
-│       │       └── typenum v1.20.1
+│       ├── block-buffer v0.12.1 (*)
 │       ├── const-oid v0.10.2
-│       └── crypto-common v0.2.2
-│           └── hybrid-array v0.4.15 (*)
+│       └── crypto-common v0.2.2 (*)
 └── sha3 v0.12.0
     ├── digest v0.11.3 (*)
     ├── keccak v0.2.2
