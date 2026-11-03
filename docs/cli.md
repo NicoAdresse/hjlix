@@ -1,6 +1,6 @@
 # hjlix CLI Documentation
 
-`hjlix` is a command-line tool designed to provide fast, reliable cryptographic hashing for strings. It supports both SHA-2 and SHA-3 (including Keccak) families.
+`hjlix` is a command-line tool designed to provide fast, reliable cryptographic hashing and encryption for strings. It supports SHA-2, SHA-3 (including Keccak), and AES-GCM families.
 
 ## Overview
 The tool is modularly organized. You can interact with it using specific subcommands.
@@ -8,6 +8,7 @@ The tool is modularly organized. You can interact with it using specific subcomm
 ### Commands
 - `sha2`: Computes hashes using the SHA-2 family.
 - `sha3`: Computes hashes using the SHA-3/Keccak family.
+- `aes-gcm`: Performs encryption using the AES-GCM family (details in [aes-gcm.md](./aes-gcm/aes-gcm.md)).
 - `about`: Displays metadata about the project, including version and authorship.
 
 ### Examples
@@ -22,8 +23,13 @@ hjlix sha2 "Hello, World!" --sha-type sha384
 hjlix sha3 "Hello, World!" --sha-type sha3-512
 ```
 
+**AES-GCM:**
+```bash
+hjlix aes-gcm "secret data" --aes-gcm-type aes256gcm
+```
+
 ### Global Options
-- `--write-into-file`: When provided, the output is saved to `file_with_sha.txt` in the current directory instead of being printed to stdout.
+- `--write-into-file`: When provided, the output is saved to `file_with_sha.txt` (for hashes) or other relevant output files in the current directory instead of being printed to stdout.
 
 ## File Tree & Cargo Tree
 
@@ -36,6 +42,8 @@ hjlix sha3 "Hello, World!" --sha-type sha3-512
 ├── CONTRIBUTING.md
 ├── Dockerfile
 ├── docs
+│   ├── aes-gcm
+│   │   └── aes-gcm.md
 │   ├── cli.md
 │   ├── sha2
 │   │   └── sha2.md
@@ -46,11 +54,16 @@ hjlix sha3 "Hello, World!" --sha-type sha3-512
 ├── SECURITY.md
 └── src
     ├── cli
+    │   ├── aes_gcm
+    │   │   ├── aes_gcm_impl.rs
+    │   │   ├── aes_gcm_types.rs
+    │   │   └── mod.rs
     │   ├── consts
     │   │   ├── constants.rs
     │   │   └── mod.rs
     │   ├── entcli.rs
     │   ├── err
+    │   │   ├── aes_err.rs
     │   │   ├── io_err.rs
     │   │   └── mod.rs
     │   ├── misc
@@ -74,7 +87,40 @@ hjlix sha3 "Hello, World!" --sha-type sha3-512
 ### Cargo Tree
 
 ```txt
-hjlix v0.1.2
+hjlix v0.1.3
+├── aes-gcm v0.11.1
+│   ├── aead v0.6.1
+│   │   ├── crypto-common v0.2.2
+│   │   │   ├── getrandom v0.4.3
+│   │   │   │   ├── cfg-if v1.0.5
+│   │   │   │   ├── libc v0.2.191
+│   │   │   │   └── rand_core v0.10.1
+│   │   │   ├── hybrid-array v0.4.15
+│   │   │   │   └── typenum v1.20.1
+│   │   │   └── rand_core v0.10.1
+│   │   └── inout v0.2.5
+│   │       └── hybrid-array v0.4.15 (*)
+│   ├── aes v0.9.4
+│   │   ├── cipher v0.5.2
+│   │   │   ├── block-buffer v0.12.1
+│   │   │   │   └── hybrid-array v0.4.15 (*)
+│   │   │   ├── crypto-common v0.2.2 (*)
+│   │   │   └── inout v0.2.5 (*)
+│   │   ├── cpubits v0.1.1
+│   │   └── cpufeatures v0.3.1
+│   ├── cipher v0.5.2 (*)
+│   ├── ctr v0.10.1
+│   │   └── cipher v0.5.2 (*)
+│   ├── ctutils v0.4.8
+│   │   └── cmov v0.5.4
+│   └── ghash v0.6.0
+│       └── polyval v0.7.3
+│           ├── cpubits v0.1.1
+│           ├── cpufeatures v0.3.1
+│           └── universal-hash v0.6.1
+│               ├── crypto-common v0.2.2 (*)
+│               └── ctutils v0.4.8 (*)
+├── anyhow v1.0.104
 ├── clap v4.6.7
 │   ├── clap_builder v4.6.7
 │   │   ├── anstream v1.0.0
@@ -103,12 +149,9 @@ hjlix v0.1.2
 │   ├── cfg-if v1.0.5
 │   ├── cpufeatures v0.3.1
 │   └── digest v0.11.3
-│       ├── block-buffer v0.12.1
-│       │   └── hybrid-array v0.4.15
-│       │       └── typenum v1.20.1
+│       ├── block-buffer v0.12.1 (*)
 │       ├── const-oid v0.10.2
-│       └── crypto-common v0.2.2
-│           └── hybrid-array v0.4.15 (*)
+│       └── crypto-common v0.2.2 (*)
 └── sha3 v0.12.0
     ├── digest v0.11.3 (*)
     ├── keccak v0.2.2

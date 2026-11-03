@@ -1,14 +1,15 @@
 # hjlix
 
-`hjlix` is a lightweight, fast command-line utility written in Rust for computing cryptographic SHA-2 and SHA-3/Keccak hashes with support for multiple algorithm variants and optional file output.
+`hjlix` is a lightweight, fast command-line utility written in Rust for computing cryptographic SHA-2 and SHA-3/Keccak hashes, and performing AES-GCM encryption/decryption, with support for multiple algorithm variants and optional file output.
 
 ## Features
 
 - **Multiple SHA-2 Algorithms**: Compute SHA-224, SHA-256, SHA-512/224, SHA-512/256, SHA-384, and SHA-512 hashes.
 - **Multiple SHA-3 & Keccak Algorithms**: Compute SHA3-224, SHA3-256, SHA3-384, SHA3-512, Keccak-224, Keccak-256, Keccak-384, Keccak-512, and Keccak-256-Full hashes.
-- **File Output Option**: Easily write the computed digest directly into a file (`file_with_sha.txt`).
+- **AES-GCM Support**: Perform AES-GCM encryption and decryption.
+- **File Output Option**: Easily write the computed results directly into files.
 - **About Command**: Quick information about the utility and authors.
-- **Fast & Safe**: Built in Rust using `clap` for robust CLI parsing and secure hashing crates.
+- **Fast & Safe**: Built in Rust using `clap` for robust CLI parsing and secure hashing/encryption crates.
 
 ---
 
@@ -69,6 +70,17 @@ hjlix sha3 <STRING>... --sha-type <SHA_TYPE> [--write-into-file]
   - `sha3-512`
 - `-w, --write-into-file`: Flag to write the resulting hashes into a file named `file_with_sha.txt`.
 
+#### `aes-gcm`
+Performs encryption using AES-GCM.
+
+```bash
+hjlix aes-gcm <STRING>... --aes-gcm-type <TYPE> [--write-into-file]
+```
+
+- `<STRING>...`: One or more input strings to encrypt.
+- `-a, --aes-gcm-type <TYPE>`: The AES-GCM variant to use (`aes128gcm` or `aes256gcm`).
+- `-w, --write-into-file`: Flag to write the resulting encrypted output into a file named `file_with_aes-gcm.txt`.
+
 #### `about`
 Displays project information and current version.
 
@@ -88,6 +100,11 @@ hjlix sha2 "hello" "world" --sha-type sha256
 Compute a SHA-3 (SHA3-256) hash and write it to `file_with_sha.txt`:
 ```bash
 hjlix sha3 "secure message" --sha-type sha3-256 --write-into-file
+```
+
+Perform AES-GCM encryption:
+```bash
+hjlix aes-gcm "my secret" --aes-gcm-type encrypt
 ```
 
 Display information about `hjlix`:

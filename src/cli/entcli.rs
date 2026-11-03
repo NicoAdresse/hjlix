@@ -1,5 +1,7 @@
 // src/cli/entcli.rs
 
+use crate::cli::aes_gcm::aes_gcm_impl::AESGCMImpl;
+use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
 use crate::cli::consts::constants::*;
 use crate::cli::misc::about::About;
 use crate::cli::sha2::{sha2_impl::Sha2Impl, sha2_types::Sha2Types};
@@ -17,12 +19,14 @@ pub struct CliArgs {
     command: Commands,
 }
 
+#[allow(variant_size_differences)]
+#[allow(clippy::large_enum_variant)]
 #[derive(Subcommand, Debug, Clone, PartialEq)]
 pub enum Commands {
     /// Takes a String and puts it in a SHA2 cryptographic algorithm.
     Sha2 {
         #[arg(required = true, help = SHA_STR_HELP)]
-        str: Vec<String>,
+        strings: Vec<String>,
         #[arg(short, long, required = true, help = SHA_TYPE_HELP)]
         sha_type: Sha2Types,
         #[arg(short, long, default_value_t = false, help = SHA_WRITE_INTO_FILE_HELP)]
@@ -31,10 +35,19 @@ pub enum Commands {
     /// Takes a String and puts it in a SHA3 cryptographic algorithm.
     Sha3 {
         #[arg(required = true, help = SHA_STR_HELP)]
-        str: Vec<String>,
+        strings: Vec<String>,
         #[arg(short, long, required = true, help = SHA_TYPE_HELP)]
         sha_type: Sha3Types,
         #[arg(short, long, default_value_t = false, help = SHA_WRITE_INTO_FILE_HELP)]
+        write_into_file: bool,
+    },
+    /// Takes a String and puts it in a AES-GCM cryptographic algorithm.
+    AesGcm {
+        #[arg(required = true, help = AESGCM_STR_HELP)]
+        strings: Vec<String>,
+        #[arg(short, long, required = true, help = AESGCM_TYPE_HELP)]
+        aes_gcm_type: AESGCMTypes,
+        #[arg(short, long, default_value_t = false, help = AESGCM_WRITE_INTO_FILE_HELP)]
         write_into_file: bool,
     },
     /// Tells the user what hjlix is.
@@ -46,27 +59,44 @@ pub fn run_hjlix() {
 
     match args.command {
         Commands::Sha2 {
-            str,
+            strings,
             sha_type,
             write_into_file,
         } => {
-            let sha_impl = Sha2Impl::new(str, sha_type, write_into_file);
+            let sha_impl = Sha2Impl::new(strings, sha_type, write_into_file);
 
             if let Err(error) = sha_impl.execute() {
                 eprintln!("Error: {:?}", error);
             }
         }
         Commands::Sha3 {
-            str,
+            strings,
             sha_type,
             write_into_file,
         } => {
-            let sha_impl = Sha3Impl::new(str, sha_type, write_into_file);
+            let sha_impl = Sha3Impl::new(strings, sha_type, write_into_file);
 
             if let Err(error) = sha_impl.execute() {
                 eprintln!("Error: {:?}", error);
             }
-        }
+        },
+        Commands::AesGcm {
+            strings,
+            aes_gcm_type,
+            write_into_file
+        } => {
+            let aes_impl = AESGCMImpl::new(strings, aes_gcm_type, write_into_file);
+
+            if !write_into_file {
+                if let Err(error) = aes_impl.execute() {
+                    eprintln!("Error: {:?}", error);
+                }
+            } else {
+                if let Err(error) = aes_impl.execute_write_into_file() {
+                    eprintln!("Error: {:?}", error);
+                }
+            }
+        },
         Commands::About {} => {
             About::execute();
         }
