@@ -7,3 +7,10 @@ pub enum AESError {
     FailedToCreateKey,
     FailedToCreateCiphertext,
 }
+
+impl std::error::Error for AESError {}
+impl std::fmt::Display for AESError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self)
+    }
+}
