@@ -36,7 +36,8 @@ impl Sha2Impl {
     }
 
     pub fn execute(&self) -> Result<(), IOError> {
-        let path = Path::new(FILE_NAME);
+        let filename = &self.optional_filename.clone().unwrap_or(FILE_NAME.to_owned());
+        let path = Path::new(filename);
 
         let mut buf_writer = if self.write_into_file {
             if path.exists() {
