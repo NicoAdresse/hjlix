@@ -10,6 +10,7 @@ use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
 use crate::cli::err::aes_err::AESError;
 use crate::cli::consts::constants::FILE_NAME_AES_GCM;
 use crate::cli::err::io_err::IOError;
+use crate::cli::traits::generate_aes_key::HjlixGenerateAESKey;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct AESGCMStrImpl {
@@ -24,21 +25,8 @@ impl AESGCMStrImpl {
         Self { strings, aes_gcm_type, write_into_file, optional_filename }
     }
 
-    fn generate_key_for_aes_type(&self) -> Vec<u8> {
-        match &self.aes_gcm_type {
-            AESGCMTypes::AES128GCM => {
-                let key = Key::<Aes128Gcm>::generate();
-                key.to_vec()
-            }
-            AESGCMTypes::AES256GCM => {
-                let key = Key::<Aes256Gcm>::generate();
-                key.to_vec()
-            }
-        }
-    }
-
     pub fn execute(&self) -> Result<(), AESError> {
-        let key = self.generate_key_for_aes_type();
+        let key = self.aes_gcm_type.generate_key_for_aes_type();
         let aes_gcm_type = self.aes_gcm_type.figure_out_type(&key)
             .map_err(|_| AESError::FailedToFigureOutType)?;
 
@@ -80,7 +68,7 @@ impl AESGCMStrImpl {
     }
 
     pub fn execute_write_into_file(&self) -> anyhow::Result<()> {
-        let key = self.generate_key_for_aes_type();
+        let key = self.aes_gcm_type.generate_key_for_aes_type();
         let aes_gcm_type = self.aes_gcm_type.figure_out_type(&key)
             .map_err(|_| AESError::FailedToFigureOutType)?;
 
