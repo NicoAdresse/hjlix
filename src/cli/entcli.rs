@@ -56,6 +56,15 @@ pub enum Commands {
         #[arg(short, long, help = SHA_OPTIONAL_FILENAME_HELP)]
         optional_filename: Option<String>,
     },
+    /// Takes Strings from files and puts it in a SHA3 cryptographic algorithm.
+    Sha3File {
+        #[arg(required = true, help = SHA_FILE_HELP)]
+        files: Vec<PathBuf>,
+        #[arg(short, long, required = true, help = SHA_TYPE_HELP)]
+        sha_type: Sha3Types,
+        #[arg(short, long, default_value_t = false)]
+        no_verbose: bool,
+    },
     /// Takes a String and puts it in a AES-GCM cryptographic algorithm.
     AesGcm {
         #[arg(required = true, help = AESGCM_STR_HELP)]
@@ -106,6 +115,7 @@ pub fn run_hjlix() {
                 eprintln!("Error: {}", error);
             }
         },
+        Commands::Sha3File { files, sha_type, no_verbose } => todo!(),
         Commands::AesGcm {
             strings,
             aes_gcm_type,
