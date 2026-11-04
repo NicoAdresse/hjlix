@@ -11,3 +11,4 @@ pub const SHA_WRITE_INTO_FILE_HELP: &str = "Writes into a file called 'file_with
 pub const AESGCM_WRITE_INTO_FILE_HELP: &str = "Writes into a file called 'file_with_aes-gcm.txt'.";
 pub const SHA_OPTIONAL_FILENAME_HELP: &str = "An optional filename that you can write if you don't want 'file_with_sha.txt'.";
 pub const AESGCM_OPTIONAL_FILENAME_HELP: &str = "An optional filename that you can write if you don't want 'file_with_aes-gcm.txt'.";
+pub const NO_VERBOSE_HELP: &str = "Silence extra commentary.";

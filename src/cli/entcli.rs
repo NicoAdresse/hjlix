@@ -42,7 +42,7 @@ pub enum Commands {
         files: Vec<PathBuf>,
         #[arg(short, long, help = SHA_TYPE_HELP)]
         sha_type: Sha2Types,
-        #[arg(short, long, default_value_t = false)]
+        #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
     },
     /// Takes a String and puts it in a SHA3 cryptographic algorithm.
@@ -62,7 +62,7 @@ pub enum Commands {
         files: Vec<PathBuf>,
         #[arg(short, long, required = true, help = SHA_TYPE_HELP)]
         sha_type: Sha3Types,
-        #[arg(short, long, default_value_t = false)]
+        #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
     },
     /// Takes a String and puts it in a AES-GCM cryptographic algorithm.
