@@ -4,7 +4,7 @@ use crate::cli::aes_gcm::aes_gcm_impl::AESGCMImpl;
 use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
 use crate::cli::consts::constants::*;
 use crate::cli::misc::about::About;
-use crate::cli::sha2::{sha2_impl::Sha2Impl, sha2_types::Sha2Types};
+use crate::cli::sha2::{sha2str_impl::Sha2StrImpl, sha2_types::Sha2Types};
 use crate::cli::sha3::{sha3_impl::Sha3Impl, sha3_types::Sha3Types};
 use clap::{Parser, Subcommand};
 use std::path::PathBuf;
@@ -25,7 +25,7 @@ pub struct CliArgs {
 #[derive(Subcommand, Debug, Clone, PartialEq)]
 pub enum Commands {
     /// Takes a String and puts it in a SHA2 cryptographic algorithm.
-    Sha2 {
+    Sha2Str {
         #[arg(required = true, help = SHA_STR_HELP)]
         strings: Vec<String>,
         #[arg(short, long, required = true, help = SHA_TYPE_HELP)]
@@ -72,13 +72,13 @@ pub fn run_hjlix() {
     let args = CliArgs::parse();
 
     match args.command {
-        Commands::Sha2 {
+        Commands::Sha2Str {
             strings,
             sha_type,
             write_into_file,
             optional_filename
         } => {
-            let sha_impl = Sha2Impl::new(strings, sha_type, write_into_file, optional_filename);
+            let sha_impl = Sha2StrImpl::new(strings, sha_type, write_into_file, optional_filename);
 
             if let Err(error) = sha_impl.execute() {
                 eprintln!("Error: {:?}", error);

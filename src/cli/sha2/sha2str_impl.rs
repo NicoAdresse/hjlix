@@ -9,14 +9,14 @@ use std::io::{BufWriter, Write};
 use std::path::Path;
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct Sha2Impl {
+pub struct Sha2StrImpl {
     strings: Vec<String>,
     sha_type: Sha2Types,
     write_into_file: bool,
     optional_filename: Option<String>,
 }
 
-impl Sha2Impl {
+impl Sha2StrImpl {
     pub fn new(strings: Vec<String>, sha_type: Sha2Types, write_into_file: bool, optional_filename: Option<String>) -> Self {
         Self {
             strings,
