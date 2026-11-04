@@ -11,11 +11,12 @@ use crate::cli::traits::digest::HjlixDigest;
 pub struct Sha2FileImpl {
     files: Vec<PathBuf>,
     sha_type: Sha2Types,
+    no_verbose: bool,
 }
 
 impl Sha2FileImpl {
-    pub fn new(files: Vec<PathBuf>, sha_type: Sha2Types) -> Self {
-        Self { files, sha_type }
+    pub fn new(files: Vec<PathBuf>, sha_type: Sha2Types, no_verbose: bool) -> Self {
+        Self { files, sha_type, no_verbose }
     }
 
     pub fn execute(&self) -> Result<(), IOError> {
@@ -33,8 +34,12 @@ impl Sha2FileImpl {
                 let line_bytes = self.sha_type.digest(line.as_bytes());
                 let result = hex::encode(line_bytes);
 
-                println!("Original: {}", line);
-                println!("Result: {}", result);
+                if !self.no_verbose {
+                    println!("Original: {}", line);
+                    println!("Result: {}", result);
+                } else {
+                    println!("{}", result);
+                }
             }
         }
 

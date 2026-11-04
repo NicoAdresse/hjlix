@@ -42,6 +42,8 @@ pub enum Commands {
         files: Vec<PathBuf>,
         #[arg(short, long, help = SHA_TYPE_HELP)]
         sha_type: Sha2Types,
+        #[arg(short, long, default_value_t = false)]
+        no_verbose: bool,
     },
     /// Takes a String and puts it in a SHA3 cryptographic algorithm.
     Sha3 {
@@ -85,8 +87,8 @@ pub fn run_hjlix() {
                 eprintln!("Error: {}", error);
             }
         }
-        Commands::Sha2File { files, sha_type } => {
-            let sha2file_impl = Sha2FileImpl::new(files, sha_type);
+        Commands::Sha2File { files, sha_type, no_verbose } => {
+            let sha2file_impl = Sha2FileImpl::new(files, sha_type, no_verbose);
 
             if let Err(error) = sha2file_impl.execute() {
                 eprintln!("Error: {}", error);
