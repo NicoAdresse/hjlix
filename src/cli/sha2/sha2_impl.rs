@@ -13,14 +13,16 @@ pub struct Sha2Impl {
     strings: Vec<String>,
     sha_type: Sha2Types,
     write_into_file: bool,
+    optional_filename: Option<String>,
 }
 
 impl Sha2Impl {
-    pub fn new(strings: Vec<String>, sha_type: Sha2Types, write_into_file: bool) -> Self {
+    pub fn new(strings: Vec<String>, sha_type: Sha2Types, write_into_file: bool, optional_filename: Option<String>) -> Self {
         Self {
             strings,
             sha_type,
             write_into_file,
+            optional_filename,
         }
     }
 
@@ -34,7 +36,8 @@ impl Sha2Impl {
     }
 
     pub fn execute(&self) -> Result<(), IOError> {
-        let path = Path::new(FILE_NAME);
+        let filename = &self.optional_filename.clone().unwrap_or(FILE_NAME.to_owned());
+        let path = Path::new(filename);
 
         let mut buf_writer = if self.write_into_file {
             if path.exists() {
