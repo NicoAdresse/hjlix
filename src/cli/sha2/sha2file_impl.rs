@@ -1,0 +1,1 @@
+// src/cli/sha2/sha2file_impl.rs

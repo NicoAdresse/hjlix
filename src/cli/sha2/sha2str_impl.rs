@@ -1,4 +1,4 @@
-// src/cli/sha/sha_impl.rs
+// src/cli/sha/sha2str_impl.rs
 
 use crate::cli::consts::constants::FILE_NAME;
 use crate::cli::err::io_err::IOError;
