@@ -82,7 +82,7 @@ pub fn run_hjlix() {
             let sha_impl = Sha2StrImpl::new(strings, sha_type, write_into_file, optional_filename);
 
             if let Err(error) = sha_impl.execute() {
-                eprintln!("Error: {:?}", error);
+                eprintln!("Error: {}", error);
             }
         }
         Commands::Sha2File { files, sha_type } => {
@@ -101,7 +101,7 @@ pub fn run_hjlix() {
             let sha_impl = Sha3Impl::new(strings, sha_type, write_into_file, optional_filename);
 
             if let Err(error) = sha_impl.execute() {
-                eprintln!("Error: {:?}", error);
+                eprintln!("Error: {}", error);
             }
         },
         Commands::AesGcm {
@@ -114,11 +114,11 @@ pub fn run_hjlix() {
 
             if !write_into_file {
                 if let Err(error) = aes_impl.execute() {
-                    eprintln!("Error: {:?}", error);
+                    eprintln!("Error: {}", error);
                 }
             } else {
                 if let Err(error) = aes_impl.execute_write_into_file() {
-                    eprintln!("Error: {:?}", error);
+                    eprintln!("Error: {}", error);
                 }
             }
         },
