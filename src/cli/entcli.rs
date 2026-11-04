@@ -87,6 +87,10 @@ pub fn run_hjlix() {
         }
         Commands::Sha2File { files, sha_type } => {
             let sha2file_impl = Sha2FileImpl::new(files, sha_type);
+
+            if let Err(error) = sha2file_impl.execute() {
+                eprintln!("Error: {}", error);
+            }
         },
         Commands::Sha3 {
             strings,
