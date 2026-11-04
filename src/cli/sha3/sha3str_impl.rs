@@ -9,14 +9,14 @@ use crate::cli::consts::constants::FILE_NAME;
 use crate::cli::traits::digest::HjlixDigest;
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct Sha3Impl {
+pub struct Sha3StrImpl {
     strings: Vec<String>,
     sha3_type: Sha3Types,
     write_into_file: bool,
     optional_filename: Option<String>,
 }
 
-impl Sha3Impl {
+impl Sha3StrImpl {
     pub fn new(strings: Vec<String>, sha3_type: Sha3Types, write_into_file: bool, optional_filename: Option<String>) -> Self {
         Self { strings, sha3_type, write_into_file, optional_filename }
     }

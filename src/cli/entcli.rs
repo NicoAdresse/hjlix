@@ -6,7 +6,7 @@ use crate::cli::consts::constants::*;
 use crate::cli::misc::about::About;
 use crate::cli::sha2::sha2file_impl::Sha2FileImpl;
 use crate::cli::sha2::{sha2str_impl::Sha2StrImpl, sha2_types::Sha2Types};
-use crate::cli::sha3::{sha3_impl::Sha3Impl, sha3_types::Sha3Types};
+use crate::cli::sha3::{sha3str_impl::Sha3StrImpl, sha3_types::Sha3Types};
 use clap::{Parser, Subcommand};
 use std::path::PathBuf;
 
@@ -46,7 +46,7 @@ pub enum Commands {
         no_verbose: bool,
     },
     /// Takes a String and puts it in a SHA3 cryptographic algorithm.
-    Sha3 {
+    Sha3Str {
         #[arg(required = true, help = SHA_STR_HELP)]
         strings: Vec<String>,
         #[arg(short, long, required = true, help = SHA_TYPE_HELP)]
@@ -94,13 +94,13 @@ pub fn run_hjlix() {
                 eprintln!("Error: {}", error);
             }
         },
-        Commands::Sha3 {
+        Commands::Sha3Str {
             strings,
             sha_type,
             write_into_file,
             optional_filename,
         } => {
-            let sha_impl = Sha3Impl::new(strings, sha_type, write_into_file, optional_filename);
+            let sha_impl = Sha3StrImpl::new(strings, sha_type, write_into_file, optional_filename);
 
             if let Err(error) = sha_impl.execute() {
                 eprintln!("Error: {}", error);
