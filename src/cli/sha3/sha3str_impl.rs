@@ -1,4 +1,4 @@
-// src/cli/sha3/sha3_impl.rs
+// src/cli/sha3/sha3str_impl.rs
 
 use std::fs::{OpenOptions, File};
 use std::path::Path;

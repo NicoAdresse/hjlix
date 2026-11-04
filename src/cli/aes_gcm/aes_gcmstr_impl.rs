@@ -1,4 +1,4 @@
-// src/cli/aes_gcm/aes_gcm_impl.rs
+// src/cli/aes_gcm/aes_gcmstr_impl.rs
 
 use std::path::Path;
 use std::fs::File;
