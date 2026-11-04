@@ -5,6 +5,7 @@ use std::fs::File;
 use std::io::{BufRead, BufReader};
 use crate::cli::err::io_err::IOError;
 use crate::cli::sha2::sha2_types::Sha2Types;
+use crate::cli::traits::digest::HjlixDigest;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Sha2FileImpl {
@@ -29,7 +30,7 @@ impl Sha2FileImpl {
 
             for lines in buf_reader.lines() {
                 let line = lines.map_err(|_| IOError::FailedToReadLines)?;
-                let line_bytes = line.as_bytes();
+                let line_bytes = self.sha_type.digest(line.as_bytes());
                 let result = hex::encode(line_bytes);
 
                 println!("Original: {}", line);

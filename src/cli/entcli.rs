@@ -4,6 +4,7 @@ use crate::cli::aes_gcm::aes_gcm_impl::AESGCMImpl;
 use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
 use crate::cli::consts::constants::*;
 use crate::cli::misc::about::About;
+use crate::cli::sha2::sha2file_impl::Sha2FileImpl;
 use crate::cli::sha2::{sha2str_impl::Sha2StrImpl, sha2_types::Sha2Types};
 use crate::cli::sha3::{sha3_impl::Sha3Impl, sha3_types::Sha3Types};
 use clap::{Parser, Subcommand};
@@ -84,7 +85,9 @@ pub fn run_hjlix() {
                 eprintln!("Error: {:?}", error);
             }
         }
-        Commands::Sha2File { files, sha_type } => todo!(),
+        Commands::Sha2File { files, sha_type } => {
+            let sha2file_impl = Sha2FileImpl::new(files, sha_type);
+        },
         Commands::Sha3 {
             strings,
             sha_type,
