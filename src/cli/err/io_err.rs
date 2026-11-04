@@ -3,9 +3,12 @@
 #[derive(Debug, Clone, PartialEq)]
 pub enum IOError {
     FailedToCreateFile,
+    FailedToOpenFile,
+    FailedToReadLines,
     FailedToWrite,
     FileAlreadyExists,
     FailedToFlushBufWriter,
+    NoGivenFile,
 }
 
 impl std::error::Error for IOError {}
