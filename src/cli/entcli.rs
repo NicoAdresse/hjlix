@@ -7,6 +7,7 @@ use crate::cli::misc::about::About;
 use crate::cli::sha2::{sha2_impl::Sha2Impl, sha2_types::Sha2Types};
 use crate::cli::sha3::{sha3_impl::Sha3Impl, sha3_types::Sha3Types};
 use clap::{Parser, Subcommand};
+use std::path::PathBuf;
 
 #[derive(Parser, Debug, Clone, PartialEq)]
 #[command(
@@ -33,6 +34,13 @@ pub enum Commands {
         write_into_file: bool,
         #[arg(short, long, help = SHA_OPTIONAL_FILENAME_HELP)]
         optional_filename: Option<String>,
+    },
+    /// Takes Strings from files and puts it in a SHA2 cryptographic algorithm.
+    Sha2File {
+        #[arg(required = true, help = SHA_FILE_HELP)]
+        files: Vec<PathBuf>,
+        #[arg(short, long, help = SHA_TYPE_HELP)]
+        sha_type: Sha2Types,
     },
     /// Takes a String and puts it in a SHA3 cryptographic algorithm.
     Sha3 {
@@ -76,6 +84,7 @@ pub fn run_hjlix() {
                 eprintln!("Error: {:?}", error);
             }
         }
+        Commands::Sha2File { files, sha_type } => todo!(),
         Commands::Sha3 {
             strings,
             sha_type,
