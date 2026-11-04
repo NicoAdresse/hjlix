@@ -1,6 +1,6 @@
 // src/cli/entcli.rs
 
-use crate::cli::aes_gcm::aes_gcm_impl::AESGCMImpl;
+use crate::cli::aes_gcm::aes_gcmstr_impl::AESGCMStrImpl;
 use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
 use crate::cli::consts::constants::*;
 use crate::cli::misc::about::About;
@@ -67,7 +67,7 @@ pub enum Commands {
         no_verbose: bool,
     },
     /// Takes a String and puts it in a AES-GCM cryptographic algorithm.
-    AesGcm {
+    AesGcmStr {
         #[arg(required = true, help = AESGCM_STR_HELP)]
         strings: Vec<String>,
         #[arg(short, long, required = true, help = AESGCM_TYPE_HELP)]
@@ -123,13 +123,13 @@ pub fn run_hjlix() {
                 eprintln!("Error: {}", error);
             }
         },
-        Commands::AesGcm {
+        Commands::AesGcmStr {
             strings,
             aes_gcm_type,
             write_into_file,
             optional_filename,
         } => {
-            let aes_impl = AESGCMImpl::new(strings, aes_gcm_type, write_into_file, optional_filename);
+            let aes_impl = AESGCMStrImpl::new(strings, aes_gcm_type, write_into_file, optional_filename);
 
             if !write_into_file {
                 if let Err(error) = aes_impl.execute() {

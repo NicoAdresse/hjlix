@@ -12,14 +12,14 @@ use crate::cli::consts::constants::FILE_NAME_AES_GCM;
 use crate::cli::err::io_err::IOError;
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct AESGCMImpl {
+pub struct AESGCMStrImpl {
     strings: Vec<String>,
     aes_gcm_type: AESGCMTypes,
     write_into_file: bool,
     optional_filename: Option<String>,
 }
 
-impl AESGCMImpl {
+impl AESGCMStrImpl {
     pub fn new(strings: Vec<String>, aes_gcm_type: AESGCMTypes, write_into_file: bool, optional_filename: Option<String>) -> Self {
         Self { strings, aes_gcm_type, write_into_file, optional_filename }
     }
