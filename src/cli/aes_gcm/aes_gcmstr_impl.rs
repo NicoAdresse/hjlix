@@ -8,7 +8,7 @@ use aes_gcm::aead::Aead;
 use aes_gcm::{Key, Aes128Gcm, Aes256Gcm, aead::Generate, Nonce};
 use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
 use crate::cli::err::aes_err::AESError;
-use crate::cli::consts::constants::FILE_NAME_AES_GCM;
+use crate::cli::consts::constants::{FILE_NAME_AES_GCM, FILE_NAME_AES_GCM_KEY};
 use crate::cli::err::io_err::IOError;
 use crate::cli::traits::generate_aes_key::HjlixGenerateAESKey;
 
@@ -19,6 +19,7 @@ pub struct AESGCMStrImpl {
     write_into_file: bool,
     optional_filename: Option<String>,
     no_verbose: bool,
+    gen_key: bool,
 }
 
 impl AESGCMStrImpl {
@@ -28,20 +29,26 @@ impl AESGCMStrImpl {
         write_into_file: bool,
         optional_filename: Option<String>,
         no_verbose: bool,
+        gen_key: bool,
     ) -> Self {
         Self {
             strings,
             aes_gcm_type,
             write_into_file,
             optional_filename,
-            no_verbose
+            no_verbose,
+            gen_key
         }
     }
 
-    pub fn execute(&self) -> Result<(), AESError> {
+    pub fn execute(&self) -> anyhow::Result<()> {
         let key = self.aes_gcm_type.generate_key_for_aes_type();
         let aes_gcm_type = self.aes_gcm_type.figure_out_type(&key)
             .map_err(|_| AESError::FailedToFigureOutType)?;
+
+        if self.gen_key {
+            std::fs::write(FILE_NAME_AES_GCM_KEY, &key);
+        }
 
         match aes_gcm_type {
             AESGCMTypes::AES128GCM => {
@@ -102,6 +109,10 @@ impl AESGCMStrImpl {
         let file = File::create(path)
             .map_err(|_| IOError::FailedToCreateFile)?;
         let mut buf_writer = BufWriter::new(file);
+
+        if self.gen_key {
+            std::fs::write(FILE_NAME_AES_GCM_KEY, &key);
+        }
 
         match aes_gcm_type {
             AESGCMTypes::AES128GCM => {
