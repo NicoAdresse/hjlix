@@ -10,14 +10,19 @@ The SHA-2 (Secure Hash Algorithm 2) family is a set of cryptographic hash functi
 - **SHA-512/224**
 - **SHA-512/256**
 
-## Usage Example
+## Usage Example (Strings)
 ```bash
-hjlix sha2 "Hello, World!" --sha-type sha384
+hjlix sha2-str "Hello, World!" --sha-type sha384
 ```
 
 Result:
 ```txt
 5485cc9b3365b4305dfb4e8337e0a598a574f8242bf17289e0dd6c20a3cd44a089de16ab4ab308f63e44b1170eb5f515
+```
+
+## Usage Example (Files)
+```bash
+hjlix sha2-file "path/to/file.txt" --sha-type sha256
 ```
 
 ## Use Case
