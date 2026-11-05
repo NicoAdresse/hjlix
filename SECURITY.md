@@ -8,6 +8,7 @@ Here are all the currently supported versions of `hjlix`.
 | ------- | ------------------ |
 | <0.1.4  | :x:                |
 | 0.1.4   | :white_check_mark: |
+| 0.1.4>  | :white_check_mark: |
 
 ## Reporting a Vulnerability
 
