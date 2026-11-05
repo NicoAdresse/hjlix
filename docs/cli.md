@@ -64,7 +64,8 @@ hjlix aes-gcm-file "path/to/file.txt" --aes-gcm-type aes256gcm
 └── src
     ├── cli
     │   ├── aes_gcm
-    │   │   ├── aes_gcm_impl.rs
+    │   │   ├── aes_gcmfile_impl.rs
+    │   │   ├── aes_gcmstr_impl.rs
     │   │   ├── aes_gcm_types.rs
     │   │   └── mod.rs
     │   ├── consts
@@ -81,13 +82,19 @@ hjlix aes-gcm-file "path/to/file.txt" --aes-gcm-type aes256gcm
     │   ├── mod.rs
     │   ├── sha2
     │   │   ├── mod.rs
-    │   │   ├── sha2_impl.rs
+    │   │   ├── sha2file_impl.rs
+    │   │   ├── sha2str_impl.rs
     │   │   └── sha2_types.rs
     │   ├── sha3
     │   │   ├── mod.rs
-    │   │   ├── sha3_impl.rs
+    │   │   ├── sha3file_impl.rs
+    │   │   ├── sha3str_impl.rs
     │   │   └── sha3_types.rs
     │   └── traits
+    │       ├── digest.rs
+    │       ├── generate_aes_key.rs
+    │       └── mod.rs
+    └── main.rs
     │       ├── digest.rs
     │       └── mod.rs
     └── main.rs
@@ -96,7 +103,7 @@ hjlix aes-gcm-file "path/to/file.txt" --aes-gcm-type aes256gcm
 ### Cargo Tree
 
 ```txt
-hjlix v0.1.3
+hjlix v0.1.4
 ├── aes-gcm v0.11.1
 │   ├── aead v0.6.1
 │   │   ├── crypto-common v0.2.2
