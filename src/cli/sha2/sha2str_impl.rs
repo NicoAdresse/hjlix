@@ -14,15 +14,23 @@ pub struct Sha2StrImpl {
     sha_type: Sha2Types,
     write_into_file: bool,
     optional_filename: Option<String>,
+    no_verbose: bool,
 }
 
 impl Sha2StrImpl {
-    pub fn new(strings: Vec<String>, sha_type: Sha2Types, write_into_file: bool, optional_filename: Option<String>) -> Self {
+    pub fn new(
+        strings: Vec<String>,
+        sha_type: Sha2Types,
+        write_into_file: bool,
+        optional_filename: Option<String>,
+        no_verbose: bool
+    ) -> Self {
         Self {
             strings,
             sha_type,
             write_into_file,
             optional_filename,
+            no_verbose
         }
     }
 
@@ -60,8 +68,12 @@ impl Sha2StrImpl {
             if let Some(ref mut writer) = buf_writer {
                 writeln!(writer, "{}", result).map_err(|_| IOError::FailedToWrite)?;
             } else {
-                println!("Original: {}", str);
-                println!("Result: {}", result);
+                if !self.no_verbose {
+                    println!("Original: {}", str);
+                    println!("Result: {}", result);
+                } else {
+                    println!("{}", result);
+                }
             }
         }
 
