@@ -103,7 +103,7 @@ hjlix aes-gcm-file "path/to/file.txt" --aes-gcm-type aes256gcm
 ### Cargo Tree
 
 ```txt
-hjlix v0.1.4
+hjlix v0.1.4.1
 ├── aes-gcm v0.11.1
 │   ├── aead v0.6.1
 │   │   ├── crypto-common v0.2.2
