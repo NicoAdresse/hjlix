@@ -53,7 +53,9 @@ impl AESGCMStrImpl {
                     let nonce = Nonce::generate();
                     let ciphertext = cipher.encrypt(&nonce, string.as_ref())
                         .map_err(|_| AESError::FailedToCreateCiphertext)?;
-                    let result = hex::encode(ciphertext);
+                    let mut encrypted_data = nonce.to_vec();
+                    encrypted_data.extend_from_slice(&ciphertext);
+                    let result = hex::encode(encrypted_data);
 
                     if !self.no_verbose {
                         println!("Original: {}", string);
@@ -72,7 +74,9 @@ impl AESGCMStrImpl {
                     let nonce = Nonce::generate();
                     let ciphertext = cipher.encrypt(&nonce, string.as_ref())
                         .map_err(|_| AESError::FailedToCreateCiphertext)?;
-                    let result = hex::encode(ciphertext);
+                    let mut encrypted_data = nonce.to_vec();
+                    encrypted_data.extend_from_slice(&ciphertext);
+                    let result = hex::encode(encrypted_data);
 
                     if !self.no_verbose {
                         println!("Original: {}", string);
