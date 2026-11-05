@@ -37,7 +37,7 @@ hjlix <COMMAND>
 Computes the SHA-2 cryptographic hash of one or more strings.
 
 ```bash
-hjlix sha2 <STRING>... --sha-type <SHA_TYPE> [--write-into-file]
+hjlix sha2-str <STRING>... --sha-type <SHA_TYPE> [--write-into-file]
 ```
 
 - `<STRING>...`: One or more input strings to hash.
@@ -54,7 +54,7 @@ hjlix sha2 <STRING>... --sha-type <SHA_TYPE> [--write-into-file]
 Computes the SHA-3 or Keccak cryptographic hash of one or more strings.
 
 ```bash
-hjlix sha3 <STRING>... --sha-type <SHA_TYPE> [--write-into-file]
+hjlix sha3-str <STRING>... --sha-type <SHA_TYPE> [--write-into-file]
 ```
 
 - `<STRING>...`: One or more input strings to hash.
@@ -74,7 +74,7 @@ hjlix sha3 <STRING>... --sha-type <SHA_TYPE> [--write-into-file]
 Performs encryption using AES-GCM.
 
 ```bash
-hjlix aes-gcm <STRING>... --aes-gcm-type <TYPE> [--write-into-file]
+hjlix aes-gcm-str <STRING>... --aes-gcm-type <TYPE> [--write-into-file]
 ```
 
 - `<STRING>...`: One or more input strings to encrypt.
@@ -89,28 +89,6 @@ hjlix about
 ```
 
 ---
-
-### Examples
-
-Compute SHA-256 hashes for multiple strings:
-```bash
-hjlix sha2 "hello" "world" --sha-type sha256
-```
-
-Compute a SHA-3 (SHA3-256) hash and write it to `file_with_sha.txt`:
-```bash
-hjlix sha3 "secure message" --sha-type sha3-256 --write-into-file
-```
-
-Perform AES-GCM encryption:
-```bash
-hjlix aes-gcm "my secret" --aes-gcm-type aes256gcm
-```
-
-Display information about `hjlix`:
-```bash
-hjlix about
-```
 
 Check [docs](./docs) for more information.
 
