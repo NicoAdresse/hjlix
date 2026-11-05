@@ -1,6 +1,6 @@
 // src/cli/entcli.rs
 
-use crate::cli::aes_gcm::aes_gcmstr_impl::AESGCMStrImpl;
+use crate::cli::aes_gcm::{aes_gcmstr_impl::AESGCMStrImpl, aes_gcmfile_impl::AesGcmFileImpl};
 use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
 use crate::cli::consts::constants::*;
 use crate::cli::misc::about::About;
@@ -77,6 +77,15 @@ pub enum Commands {
         #[arg(short, long, help = AESGCM_OPTIONAL_FILENAME_HELP)]
         optional_filename: Option<String>,
     },
+    /// Takes Strings from files and puts them into a AES-GCM cryptographic algorithm.
+    AesGcmFile {
+        #[arg(required = true, help = AESGCM_FILE_HELP)]
+        files: Vec<PathBuf>,
+        #[arg(short, long, required = true, help = AESGCM_TYPE_HELP)]
+        aes_gcm_type: AESGCMTypes,
+        #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
+        no_verbose: bool,
+    },
     /// Tells the user what hjlix is.
     About {},
 }
@@ -141,6 +150,13 @@ pub fn run_hjlix() {
                 }
             }
         },
+        Commands::AesGcmFile { files, aes_gcm_type, no_verbose } => {
+            let aesfile_impl = AesGcmFileImpl::new(files, aes_gcm_type, no_verbose);
+
+            if let Err(error) = aesfile_impl.execute() {
+                eprintln!("Error: {}", error);
+            }
+        }
         Commands::About {} => {
             About::execute();
         }
