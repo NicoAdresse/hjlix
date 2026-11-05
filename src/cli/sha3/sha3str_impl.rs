@@ -14,11 +14,24 @@ pub struct Sha3StrImpl {
     sha3_type: Sha3Types,
     write_into_file: bool,
     optional_filename: Option<String>,
+    no_verbose: bool,
 }
 
 impl Sha3StrImpl {
-    pub fn new(strings: Vec<String>, sha3_type: Sha3Types, write_into_file: bool, optional_filename: Option<String>) -> Self {
-        Self { strings, sha3_type, write_into_file, optional_filename }
+    pub fn new(
+        strings: Vec<String>,
+        sha3_type: Sha3Types,
+        write_into_file: bool,
+        optional_filename: Option<String>,
+        no_verbose: bool,
+    ) -> Self {
+        Self {
+            strings,
+            sha3_type,
+            write_into_file,
+            optional_filename,
+            no_verbose
+        }
     }
 
     fn init_buffered_writer<P: AsRef<Path>>(
@@ -55,8 +68,12 @@ impl Sha3StrImpl {
             if let Some(ref mut writer) = buf_writer {
                 writeln!(writer, "{}", result).map_err(|_| IOError::FailedToWrite)?;
             } else {
-                println!("Original: {}", str);
-                println!("Result: {}", result);
+                if !self.no_verbose {
+                    println!("Original: {}", str);
+                    println!("Result: {}", result);
+                } else {
+                    println!("{}", result);
+                }
             }
         }
 
