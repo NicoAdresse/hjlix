@@ -6,9 +6,9 @@ AES-GCM (Advanced Encryption Standard in Galois/Counter Mode) is an authenticate
 - **AES-128-GCM** (`aes128gcm`) - AES-GCM using a 128-bit key.
 - **AES-256-GCM** (`aes256gcm`) - AES-GCM using a 256-bit key.
 
-## Usage Example
+## Usage Example (Strings)
 ```bash
-hjlix aes-gcm "Hello, World!" --aes-gcm-type aes256gcm
+hjlix aes-gcm-str "Hello, World!" --aes-gcm-type aes256gcm
 ```
 
 Result:
@@ -19,9 +19,14 @@ Result: <hex-encoded-ciphertext>
 
 With file output enabled (`-w` or `--write-into-file`):
 ```bash
-hjlix aes-gcm "Hello, World!" --aes-gcm-type aes256gcm -w
+hjlix aes-gcm-str "Hello, World!" --aes-gcm-type aes256gcm -w
 ```
 This writes the hex-encoded ciphertext output directly into `file_with_aes-gcm.txt`.
+
+## Usage Example (Files)
+```bash
+hjlix aes-gcm-file "path/to/file.txt" --aes-gcm-type aes256gcm
+```
 
 ## Features and Characteristics
 - **Authenticated Encryption**: Ensures both privacy and authenticity of the encrypted message.

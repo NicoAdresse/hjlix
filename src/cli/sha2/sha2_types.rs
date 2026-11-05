@@ -1,4 +1,4 @@
-// src/cli/sha/hashing_types.rs
+// src/cli/sha/sha2_types.rs
 
 use std::default::Default;
 use clap::ValueEnum;

@@ -1,24 +1,29 @@
-// src/cli/sha3/sha3_impl.rs
+// src/cli/sha/sha2str_impl.rs
 
-use std::fs::{OpenOptions, File};
-use std::path::Path;
-use std::io::{BufWriter, Write};
-use crate::cli::sha3::sha3_types::Sha3Types;
-use crate::cli::err::io_err::IOError;
 use crate::cli::consts::constants::FILE_NAME;
+use crate::cli::err::io_err::IOError;
+use crate::cli::sha2::sha2_types::Sha2Types;
 use crate::cli::traits::digest::HjlixDigest;
+use std::fs::{File, OpenOptions};
+use std::io::{BufWriter, Write};
+use std::path::Path;
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct Sha3Impl {
+pub struct Sha2StrImpl {
     strings: Vec<String>,
-    sha3_type: Sha3Types,
+    sha_type: Sha2Types,
     write_into_file: bool,
     optional_filename: Option<String>,
 }
 
-impl Sha3Impl {
-    pub fn new(strings: Vec<String>, sha3_type: Sha3Types, write_into_file: bool, optional_filename: Option<String>) -> Self {
-        Self { strings, sha3_type, write_into_file, optional_filename }
+impl Sha2StrImpl {
+    pub fn new(strings: Vec<String>, sha_type: Sha2Types, write_into_file: bool, optional_filename: Option<String>) -> Self {
+        Self {
+            strings,
+            sha_type,
+            write_into_file,
+            optional_filename,
+        }
     }
 
     fn init_buffered_writer<P: AsRef<Path>>(
@@ -42,14 +47,14 @@ impl Sha3Impl {
             let mut options = OpenOptions::new();
             options.write(true).create(true);
 
-            Some(self.init_buffered_writer(&options, path).map_err(|_| IOError::FailedToCreateFile)?)
+            Some(self.init_buffered_writer(&options, path).map_err(|_| IOError::FailedToCreateFile)?)            
         } else {
             None
         };
 
         for str in &self.strings {
             let bytes = str.as_bytes();
-            let digested_bytes = self.sha3_type.digest(bytes);
+            let digested_bytes = self.sha_type.digest(bytes);
             let result = hex::encode(digested_bytes);
 
             if let Some(ref mut writer) = buf_writer {

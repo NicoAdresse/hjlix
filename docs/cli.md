@@ -7,25 +7,34 @@ The tool is modularly organized. You can interact with it using specific subcomm
 
 ### Commands
 - `sha2`: Computes hashes using the SHA-2 family.
+  - `sha2-str`: Hashes input strings.
+  - `sha2-file`: Hashes files.
 - `sha3`: Computes hashes using the SHA-3/Keccak family.
+  - `sha3-str`: Hashes input strings.
+  - `sha3-file`: Hashes files.
 - `aes-gcm`: Performs encryption using the AES-GCM family (details in [aes-gcm.md](./aes-gcm/aes-gcm.md)).
+  - `aes-gcm-str`: Encrypts input strings.
+  - `aes-gcm-file`: Encrypts files.
 - `about`: Displays metadata about the project, including version and authorship.
 
 ### Examples
 
 **SHA-2:**
 ```bash
-hjlix sha2 "Hello, World!" --sha-type sha384
+hjlix sha2-str "Hello, World!" --sha-type sha384
+hjlix sha2-file "path/to/file.txt" --sha-type sha256
 ```
 
 **SHA-3/Keccak:**
 ```bash
-hjlix sha3 "Hello, World!" --sha-type sha3-512
+hjlix sha3-str "Hello, World!" --sha-type sha3-512
+hjlix sha3-file "path/to/file.txt" --sha-type sha3-256
 ```
 
 **AES-GCM:**
 ```bash
-hjlix aes-gcm "secret data" --aes-gcm-type aes256gcm
+hjlix aes-gcm-str "secret data" --aes-gcm-type aes256gcm
+hjlix aes-gcm-file "path/to/file.txt" --aes-gcm-type aes256gcm
 ```
 
 ### Global Options

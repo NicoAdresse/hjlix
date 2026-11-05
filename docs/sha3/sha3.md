@@ -18,14 +18,19 @@ SHA-3 (Secure Hash Algorithm 3) is the latest member of the Secure Hash Algorith
 - **Keccak-512**
 - **Keccak-256-Full**
 
-## Usage Example
+## Usage Example (Strings)
 ```bash
-hjlix sha3 "Hello, World!" --sha-type sha3-512
+hjlix sha3-str "Hello, World!" --sha-type sha3-512
 ```
 
 Result:
 ```txt
 38e05c33d7b067127f217d8c856e554fcff09c9320b8a5979ce2ff5d95dd27ba35d1fba50c562dfd1d6cc48bc9c5baa4390894418cc942d968f97bcb659419ed
+```
+
+## Usage Example (Files)
+```bash
+hjlix sha3-file "path/to/file.txt" --sha-type sha3-256
 ```
 
 ## Note on Keccak vs. SHA-3
