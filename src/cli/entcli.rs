@@ -80,6 +80,8 @@ pub enum Commands {
         write_into_file: bool,
         #[arg(short, long, help = AESGCM_OPTIONAL_FILENAME_HELP)]
         optional_filename: Option<String>,
+        #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
+        no_verbose: bool,
     },
     /// Takes Strings from files and puts them into a AES-GCM cryptographic algorithm.
     AesGcmFile {
@@ -155,8 +157,15 @@ pub fn run_hjlix() {
             aes_gcm_type,
             write_into_file,
             optional_filename,
+            no_verbose
         } => {
-            let aes_impl = AESGCMStrImpl::new(strings, aes_gcm_type, write_into_file, optional_filename);
+            let aes_impl = AESGCMStrImpl::new(
+                strings,
+                aes_gcm_type,
+                write_into_file,
+                optional_filename,
+                no_verbose
+            );
 
             if !write_into_file {
                 if let Err(error) = aes_impl.execute() {
