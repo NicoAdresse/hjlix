@@ -18,11 +18,24 @@ pub struct AESGCMStrImpl {
     aes_gcm_type: AESGCMTypes,
     write_into_file: bool,
     optional_filename: Option<String>,
+    no_verbose: bool,
 }
 
 impl AESGCMStrImpl {
-    pub fn new(strings: Vec<String>, aes_gcm_type: AESGCMTypes, write_into_file: bool, optional_filename: Option<String>) -> Self {
-        Self { strings, aes_gcm_type, write_into_file, optional_filename }
+    pub fn new(
+        strings: Vec<String>,
+        aes_gcm_type: AESGCMTypes,
+        write_into_file: bool,
+        optional_filename: Option<String>,
+        no_verbose: bool,
+    ) -> Self {
+        Self {
+            strings,
+            aes_gcm_type,
+            write_into_file,
+            optional_filename,
+            no_verbose
+        }
     }
 
     pub fn execute(&self) -> Result<(), AESError> {
@@ -42,8 +55,12 @@ impl AESGCMStrImpl {
                         .map_err(|_| AESError::FailedToCreateCiphertext)?;
                     let result = hex::encode(ciphertext);
 
-                    println!("Original: {}", string);
-                    println!("Result: {}", result);
+                    if !self.no_verbose {
+                        println!("Original: {}", string);
+                        println!("Result: {}", result);
+                    } else {
+                        println!("{}", result);
+                    }
                 }
             },
             AESGCMTypes::AES256GCM => {
@@ -57,8 +74,12 @@ impl AESGCMStrImpl {
                         .map_err(|_| AESError::FailedToCreateCiphertext)?;
                     let result = hex::encode(ciphertext);
 
-                    println!("Original: {}", string);
-                    println!("Result: {}", result);
+                    if !self.no_verbose {
+                        println!("Original: {}", string);
+                        println!("Result: {}", result);
+                    } else {
+                        println!("{}", result);
+                    }
                 }
 
             }
