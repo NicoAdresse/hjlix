@@ -68,8 +68,12 @@ impl Sha2StrImpl {
             if let Some(ref mut writer) = buf_writer {
                 writeln!(writer, "{}", result).map_err(|_| IOError::FailedToWrite)?;
             } else {
-                println!("Original: {}", str);
-                println!("Result: {}", result);
+                if !self.no_verbose {
+                    println!("Original: {}", str);
+                    println!("Result: {}", result);
+                } else {
+                    println!("{}", result);
+                }
             }
         }
 

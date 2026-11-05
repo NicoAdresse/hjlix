@@ -36,6 +36,8 @@ pub enum Commands {
         write_into_file: bool,
         #[arg(short, long, help = SHA_OPTIONAL_FILENAME_HELP)]
         optional_filename: Option<String>,
+        #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
+        no_verbose: bool,
     },
     /// Takes Strings from files and puts it in a SHA2 cryptographic algorithm.
     Sha2File {
@@ -98,9 +100,16 @@ pub fn run_hjlix() {
             strings,
             sha_type,
             write_into_file,
-            optional_filename
+            optional_filename,
+            no_verbose
         } => {
-            let sha_impl = Sha2StrImpl::new(strings, sha_type, write_into_file, optional_filename);
+            let sha_impl = Sha2StrImpl::new(
+                strings,
+                sha_type,
+                write_into_file,
+                optional_filename,
+                no_verbose
+            );
 
             if let Err(error) = sha_impl.execute() {
                 eprintln!("Error: {}", error);
