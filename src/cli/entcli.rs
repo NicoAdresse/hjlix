@@ -1,5 +1,6 @@
 // src/cli/entcli.rs
 
+use crate::cli::aes_gcm::aes_gcmdecryption_impl::AesGcmDecryptionImpl;
 use crate::cli::aes_gcm::{aes_gcmstr_impl::AESGCMStrImpl, aes_gcmfile_impl::AesGcmFileImpl};
 use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
 use crate::cli::consts::constants::*;
@@ -87,6 +88,15 @@ pub enum Commands {
     AesGcmFile {
         #[arg(required = true, help = AESGCM_FILE_HELP)]
         files: Vec<PathBuf>,
+        #[arg(short, long, required = true, help = AESGCM_TYPE_HELP)]
+        aes_gcm_type: AESGCMTypes,
+        #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
+        no_verbose: bool,
+    },
+    /// Takes encrypted Strings and decrypts them using AES-GCM.s
+    AesGcmDecrypt {
+        #[arg(required = true)]
+        ciphertexts: Vec<String>,
         #[arg(short, long, required = true, help = AESGCM_TYPE_HELP)]
         aes_gcm_type: AESGCMTypes,
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
@@ -181,6 +191,13 @@ pub fn run_hjlix() {
             let aesfile_impl = AesGcmFileImpl::new(files, aes_gcm_type, no_verbose);
 
             if let Err(error) = aesfile_impl.execute() {
+                eprintln!("Error: {}", error);
+            }
+        },
+        Commands::AesGcmDecrypt { ciphertexts, aes_gcm_type, no_verbose } => {
+            let aesdecrytion_impl = AesGcmDecryptionImpl::new(ciphertexts, aes_gcm_type, no_verbose);
+
+            if let Err(error) = aesdecrytion_impl.execute() {
                 eprintln!("Error: {}", error);
             }
         }

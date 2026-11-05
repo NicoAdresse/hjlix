@@ -3,7 +3,7 @@
 use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
 use crate::cli::err::{aes_err::AESError, io_err::IOError};
 use crate::cli::traits::generate_aes_key::HjlixGenerateAESKey;
-use aes_gcm::{Nonce, Key, Aes128Gcm, KeyInit, aead::{Generate, Aead}};
+use aes_gcm::{Nonce, Key, Aes128Gcm, Aes256Gcm, KeyInit, aead::Aead};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct AesGcmDecryptionImpl {
@@ -28,27 +28,65 @@ impl AesGcmDecryptionImpl {
 
         match aes_gcm_type {
             AESGCMTypes::AES128GCM => {
+                let aes_key = Key::<Aes128Gcm>::try_from(key.as_slice())
+                    .map_err(|_| AESError::FailedToCreateKey)?;
+                let cipher = Aes128Gcm::new(&aes_key);
+
                 for text in &self.ciphertexts {
-                    let text_bytes = text.as_bytes();
-                    let aes_key = Key::<Aes128Gcm>::try_from(key.as_slice())
-                        .map_err(|_| AESError::FailedToCreateKey)?;
-                    let cipher = Aes128Gcm::new(&aes_key);
-                    let nonce = Nonce::generate();
-                    let decrypted_text = cipher.decrypt(&nonce, text_bytes)
+                    let raw_bytes = hex::decode(text)
                         .map_err(|_| AESError::FailedToDecrypt)?;
-                    let result = hex::encode(decrypted_text);
+
+                    if raw_bytes.len() < 28 {
+                        return Err(AESError::FailedToDecrypt.into());
+                    }
+
+                    let (nonce_bytes, ciphertext_with_tag) = raw_bytes.split_at(12);
+                    let nonce = Nonce::try_from(nonce_bytes)
+                        .map_err(|_| AESError::FailedToGenerateNonce)?;
+
+                    let decrypted_bytes = cipher.decrypt(&nonce, ciphertext_with_tag)
+                        .map_err(|_| AESError::FailedToDecrypt)?;
+                    
+                    let result = String::from_utf8(decrypted_bytes)
+                        .map_err(|_| AESError::FailedToDecrypt)?;
 
                     if !self.no_verbose {
-                        println!("Original: {}", text);
+                        println!("Original (Hex): {}", text);
                         println!("Result: {}", result);
                     } else {
                         println!("{}", result);
                     }
                 }
             },
-            AESGCMTypes::AES256GCM => todo!(),
-        }
+            AESGCMTypes::AES256GCM => {
+                let aes_key = Key::<Aes256Gcm>::try_from(key.as_slice())
+                    .map_err(|_| AESError::FailedToCreateKey)?;
+                let cipher = Aes256Gcm::new(&aes_key);
 
+                for text in &self.ciphertexts {
+                    let raw_bytes = hex::decode(text).map_err(|_| AESError::FailedToDecrypt)?;
+                    if raw_bytes.len() < 28 {
+                        return Err(AESError::FailedToDecrypt.into());
+                    }
+
+                    let (nonce_bytes, ciphertext_with_tag) = raw_bytes.split_at(12);
+                    let nonce = Nonce::try_from(nonce_bytes)
+                        .map_err(|_| AESError::FailedToGenerateNonce)?;
+
+                    let decrypted_bytes = cipher.decrypt(&nonce, ciphertext_with_tag)
+                        .map_err(|_| AESError::FailedToDecrypt)?;
+                    
+                    let result = String::from_utf8(decrypted_bytes).map_err(|_| AESError::FailedToDecrypt)?;
+
+                    if !self.no_verbose {
+                        println!("Original (Hex): {}", text);
+                        println!("Result: {}", result);
+                    } else {
+                        println!("{}", result);
+                    }
+                }
+            },
+        }
 
         Ok(())
     }

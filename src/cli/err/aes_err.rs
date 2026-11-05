@@ -7,6 +7,7 @@ pub enum AESError {
     FailedToCreateKey,
     FailedToCreateCiphertext,
     FailedToDecrypt,
+    FailedToGenerateNonce,
 }
 
 impl std::error::Error for AESError {}
