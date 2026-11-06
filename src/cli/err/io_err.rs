@@ -9,6 +9,8 @@ pub enum IOError {
     FileAlreadyExists,
     FailedToFlushBufWriter,
     NoGivenFile,
+    FailedToGetMetadata,
+    FailedToSetPermissions,
 }
 
 impl std::error::Error for IOError {}

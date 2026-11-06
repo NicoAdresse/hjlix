@@ -1,8 +1,8 @@
 // src/cli/aes_gcm/aes_gcmstr_impl.rs
 
 use std::path::Path;
+use std::os::unix::fs::{PermissionsExt, OpenOptionsExt};
 use std::fs::{File, OpenOptions};
-use std::os::unix::fs::OpenOptionsExt;
 use std::io::{BufWriter, Write};
 use aes_gcm::KeyInit;
 use aes_gcm::aead::Aead;
@@ -51,10 +51,21 @@ impl AESGCMStrImpl {
             let mut file = OpenOptions::new()
                 .create(true)
                 .write(true)
+                .mode(0o600)
                 .open(FILE_NAME_AES_GCM_KEY)
                 .map_err(|_| IOError::FailedToCreateFile)?;
 
-            file.write_all(&key);
+            let mut perms = file
+                .metadata()
+                .map_err(|_| IOError::FailedToGetMetadata)?
+                .permissions();
+            perms.set_mode(0o600);
+            file.set_permissions(perms)
+                .map_err(|_| IOError::FailedToSetPermissions)?;
+            file.write_all(&key)
+                .map_err(|_| IOError::FailedToWrite)?;
+            file.sync_all()
+                .map_err(|_| IOError::FailedToWrite)?;
         }
 
         match aes_gcm_type {
@@ -121,10 +132,21 @@ impl AESGCMStrImpl {
             let mut file = OpenOptions::new()
                 .create_new(true)
                 .write(true)
+                .mode(0o600)
                 .open(FILE_NAME_AES_GCM_KEY)
                 .map_err(|_| IOError::FailedToCreateFile)?;
 
-            file.write_all(&key);
+            let mut perms = file
+                .metadata()
+                .map_err(|_| IOError::FailedToGetMetadata)?
+                .permissions();
+            perms.set_mode(0o600);
+            file.set_permissions(perms)
+                .map_err(|_| IOError::FailedToSetPermissions)?;
+            file.write_all(&key)
+                .map_err(|_| IOError::FailedToWrite)?;
+            file.sync_all()
+                .map_err(|_| IOError::FailedToWrite)?;
         }
 
         match aes_gcm_type {
