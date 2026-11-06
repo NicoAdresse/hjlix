@@ -1,7 +1,8 @@
 // src/cli/aes_gcm/aes_gcmstr_impl.rs
 
 use std::path::Path;
-use std::fs::File;
+use std::fs::{File, OpenOptions};
+use std::os::unix::fs::OpenOptionsExt;
 use std::io::{BufWriter, Write};
 use aes_gcm::KeyInit;
 use aes_gcm::aead::Aead;
@@ -47,7 +48,13 @@ impl AESGCMStrImpl {
             .map_err(|_| AESError::FailedToFigureOutType)?;
 
         if self.gen_key {
-            std::fs::write(FILE_NAME_AES_GCM_KEY, &key);
+            let mut file = OpenOptions::new()
+                .create(true)
+                .write(true)
+                .open(FILE_NAME_AES_GCM_KEY)
+                .map_err(|_| IOError::FailedToCreateFile)?;
+
+            file.write_all(&key);
         }
 
         match aes_gcm_type {
@@ -111,7 +118,13 @@ impl AESGCMStrImpl {
         let mut buf_writer = BufWriter::new(file);
 
         if self.gen_key {
-            std::fs::write(FILE_NAME_AES_GCM_KEY, &key);
+            let mut file = OpenOptions::new()
+                .create_new(true)
+                .write(true)
+                .open(FILE_NAME_AES_GCM_KEY)
+                .map_err(|_| IOError::FailedToCreateFile)?;
+
+            file.write_all(&key);
         }
 
         match aes_gcm_type {

@@ -14,3 +14,4 @@ pub const AESGCM_WRITE_INTO_FILE_HELP: &str = "Writes into a file called 'file_w
 pub const SHA_OPTIONAL_FILENAME_HELP: &str = "An optional filename that you can write if you don't want 'file_with_sha.txt'.";
 pub const AESGCM_OPTIONAL_FILENAME_HELP: &str = "An optional filename that you can write if you don't want 'file_with_aes-gcm.txt'.";
 pub const NO_VERBOSE_HELP: &str = "Silence extra commentary.";
+pub const AESGCM_KEY_GEN_HELP: &str = "Saves your AES-Key in a file calleed '.aes-key'. DO NOT COMMIT THIS ON GITHUB OR ANY OTHER PLATFORM.";
