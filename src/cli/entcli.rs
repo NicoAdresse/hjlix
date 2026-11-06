@@ -95,13 +95,13 @@ pub enum Commands {
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
     },
-    /// Takes encrypted Strings and decrypts them using AES-GCM.s
+    /// Takes encrypted Strings and decrypts them using AES-GCM.
     AesGcmDecrypt {
         #[arg(required = true)]
         ciphertexts: Vec<String>,
         #[arg(short, long, required = true, help = AESGCM_TYPE_HELP)]
         aes_gcm_type: AESGCMTypes,
-        #[arg(short, long, required = true)]
+        #[arg(short, long, required = true, help = AESGCM_KEYFILE_HELP)]
         key_file: PathBuf,
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
