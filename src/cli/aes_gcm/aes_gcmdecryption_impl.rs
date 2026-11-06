@@ -34,7 +34,7 @@ impl AesGcmDecryptionImpl {
             return Err(IOError::NoGivenFile.into());
         }
 
-        let key = self.load_aes_key(FILE_NAME_AES_GCM_KEY)?;
+        let key = self.load_aes_key(&self.aes_key_file)?;
         let temp = AESGCMTypes::AES128GCM;
         let aes_type = temp.figure_out_type(&key)
             .map_err(|_| AESError::FailedToFigureOutType)?;

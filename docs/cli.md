@@ -12,9 +12,10 @@ The tool is modularly organized. You can interact with it using specific subcomm
 - `sha3`: Computes hashes using the SHA-3/Keccak family.
   - `sha3-str`: Hashes input strings.
   - `sha3-file`: Hashes files.
-- `aes-gcm`: Performs encryption using the AES-GCM family (details in [aes-gcm.md](./aes-gcm/aes-gcm.md)).
+- `aes-gcm`: Performs encryption and decryption using the AES-GCM family (details in [aes-gcm.md](./aes-gcm/aes-gcm.md)).
   - `aes-gcm-str`: Encrypts input strings.
   - `aes-gcm-file`: Encrypts files.
+  - `aes-gcm-decrypt`: Decrypts encrypted strings using a key file.
 - `about`: Displays metadata about the project, including version and authorship.
 
 ### Examples
@@ -33,8 +34,14 @@ hjlix sha3-file "path/to/file.txt" --sha-type sha3-256
 
 **AES-GCM:**
 ```bash
-hjlix aes-gcm-str "secret data" --aes-gcm-type aes256gcm
+# Encrypt strings and generate a key file
+hjlix aes-gcm-str "secret data" --aes-gcm-type aes256gcm --key-gen
+
+# Encrypt files
 hjlix aes-gcm-file "path/to/file.txt" --aes-gcm-type aes256gcm
+
+# Decrypt strings using the generated key file
+hjlix aes-gcm-decrypt "hex-encoded-ciphertext" --key-file .aes_key
 ```
 
 ### Global Options
@@ -101,7 +108,7 @@ hjlix aes-gcm-file "path/to/file.txt" --aes-gcm-type aes256gcm
 ### Cargo Tree
 
 ```txt
-hjlix v0.1.4-1
+hjlix v0.1.4-2
 ├── aes-gcm v0.11.1
 │   ├── aead v0.6.1
 │   │   ├── crypto-common v0.2.2
