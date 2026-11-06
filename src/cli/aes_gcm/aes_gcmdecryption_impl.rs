@@ -2,7 +2,6 @@
 
 use std::path::{Path, PathBuf};
 use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
-use crate::cli::consts::constants::FILE_NAME_AES_GCM_KEY;
 use crate::cli::err::{aes_err::AESError, io_err::IOError};
 use aes_gcm::{Nonce, Key, Aes128Gcm, Aes256Gcm, KeyInit, aead::Aead};
 
