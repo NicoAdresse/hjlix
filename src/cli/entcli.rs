@@ -99,8 +99,6 @@ pub enum Commands {
     AesGcmDecrypt {
         #[arg(required = true)]
         ciphertexts: Vec<String>,
-        #[arg(short, long, required = true, help = AESGCM_TYPE_HELP)]
-        aes_gcm_type: AESGCMTypes,
         #[arg(short, long, required = true, help = AESGCM_KEYFILE_HELP)]
         key_file: PathBuf,
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
@@ -202,13 +200,11 @@ pub fn run_hjlix() {
         },
         Commands::AesGcmDecrypt {
             ciphertexts,
-            aes_gcm_type,
             key_file,
             no_verbose
         } => {
             let aesdecrytion_impl = AesGcmDecryptionImpl::new(
                 ciphertexts,
-                aes_gcm_type,
                 key_file,
                 no_verbose
             );

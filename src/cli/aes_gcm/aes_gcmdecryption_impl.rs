@@ -9,14 +9,13 @@ use aes_gcm::{Nonce, Key, Aes128Gcm, Aes256Gcm, KeyInit, aead::Aead};
 #[derive(Debug, Clone, PartialEq)]
 pub struct AesGcmDecryptionImpl {
     ciphertexts: Vec<String>,
-    aes_gcm_type: AESGCMTypes,
     aes_key_file: PathBuf,
     no_verbose: bool,
 }
 
 impl AesGcmDecryptionImpl {
-    pub fn new(ciphertexts: Vec<String>, aes_gcm_type: AESGCMTypes, aes_key_file: PathBuf, no_verbose: bool) -> Self {
-        Self { ciphertexts, aes_gcm_type, aes_key_file, no_verbose }
+    pub fn new(ciphertexts: Vec<String>, aes_key_file: PathBuf, no_verbose: bool) -> Self {
+        Self { ciphertexts, aes_key_file, no_verbose }
     }
 
     fn load_aes_key(&self, path: impl AsRef<Path>) -> anyhow::Result<Vec<u8>> {
@@ -36,10 +35,11 @@ impl AesGcmDecryptionImpl {
         }
 
         let key = self.load_aes_key(FILE_NAME_AES_GCM_KEY)?;
-        let aes_gcm_type = self.aes_gcm_type.figure_out_type(&key)
+        let temp = AESGCMTypes::AES128GCM;
+        let aes_type = temp.figure_out_type(&key)
             .map_err(|_| AESError::FailedToFigureOutType)?;
 
-        match aes_gcm_type {
+        match aes_type {
             AESGCMTypes::AES128GCM => {
                 let aes_key = Key::<Aes128Gcm>::try_from(key.as_slice())
                     .map_err(|_| AESError::FailedToCreateKey)?;
@@ -64,7 +64,7 @@ impl AesGcmDecryptionImpl {
                         .map_err(|_| AESError::FailedToDecrypt)?;
 
                     if !self.no_verbose {
-                        println!("Original (Hex): {}", text);
+                        println!("Original: {}", text);
                         println!("Result: {}", result);
                     } else {
                         println!("{}", result);
