@@ -64,6 +64,7 @@ hjlix aes-gcm-file "path/to/file.txt" --aes-gcm-type aes256gcm
 └── src
     ├── cli
     │   ├── aes_gcm
+    │   │   ├── aes_gcmdecryption_impl.rs
     │   │   ├── aes_gcmfile_impl.rs
     │   │   ├── aes_gcmstr_impl.rs
     │   │   ├── aes_gcm_types.rs
@@ -93,9 +94,6 @@ hjlix aes-gcm-file "path/to/file.txt" --aes-gcm-type aes256gcm
     │   └── traits
     │       ├── digest.rs
     │       ├── generate_aes_key.rs
-    │       └── mod.rs
-    └── main.rs
-    │       ├── digest.rs
     │       └── mod.rs
     └── main.rs
 ```

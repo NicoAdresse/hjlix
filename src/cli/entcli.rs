@@ -1,5 +1,6 @@
 // src/cli/entcli.rs
 
+use crate::cli::aes_gcm::aes_gcmdecryption_impl::AesGcmDecryptionImpl;
 use crate::cli::aes_gcm::{aes_gcmstr_impl::AESGCMStrImpl, aes_gcmfile_impl::AesGcmFileImpl};
 use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
 use crate::cli::consts::constants::*;
@@ -82,6 +83,8 @@ pub enum Commands {
         optional_filename: Option<String>,
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
+        #[arg(short, long, default_value_t = false, help = AESGCM_KEY_GEN_HELP)]
+        key_gen: bool,
     },
     /// Takes Strings from files and puts them into a AES-GCM cryptographic algorithm.
     AesGcmFile {
@@ -89,6 +92,15 @@ pub enum Commands {
         files: Vec<PathBuf>,
         #[arg(short, long, required = true, help = AESGCM_TYPE_HELP)]
         aes_gcm_type: AESGCMTypes,
+        #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
+        no_verbose: bool,
+    },
+    /// Takes encrypted Strings and decrypts them using AES-GCM.
+    AesGcmDecrypt {
+        #[arg(required = true)]
+        ciphertexts: Vec<String>,
+        #[arg(short, long, required = true, help = AESGCM_KEYFILE_HELP)]
+        key_file: PathBuf,
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
     },
@@ -157,14 +169,16 @@ pub fn run_hjlix() {
             aes_gcm_type,
             write_into_file,
             optional_filename,
-            no_verbose
+            no_verbose,
+            key_gen
         } => {
             let aes_impl = AESGCMStrImpl::new(
                 strings,
                 aes_gcm_type,
                 write_into_file,
                 optional_filename,
-                no_verbose
+                no_verbose,
+                key_gen
             );
 
             if !write_into_file {
@@ -181,6 +195,21 @@ pub fn run_hjlix() {
             let aesfile_impl = AesGcmFileImpl::new(files, aes_gcm_type, no_verbose);
 
             if let Err(error) = aesfile_impl.execute() {
+                eprintln!("Error: {}", error);
+            }
+        },
+        Commands::AesGcmDecrypt {
+            ciphertexts,
+            key_file,
+            no_verbose
+        } => {
+            let aesdecrytion_impl = AesGcmDecryptionImpl::new(
+                ciphertexts,
+                key_file,
+                no_verbose
+            );
+
+            if let Err(error) = aesdecrytion_impl.execute() {
                 eprintln!("Error: {}", error);
             }
         }

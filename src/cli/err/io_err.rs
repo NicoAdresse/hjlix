@@ -4,11 +4,15 @@
 pub enum IOError {
     FailedToCreateFile,
     FailedToOpenFile,
+    FailedToReadFile,
     FailedToReadLines,
     FailedToWrite,
     FileAlreadyExists,
     FailedToFlushBufWriter,
     NoGivenFile,
+    FileNotFound,
+    FailedToGetMetadata,
+    FailedToSetPermissions,
 }
 
 impl std::error::Error for IOError {}
