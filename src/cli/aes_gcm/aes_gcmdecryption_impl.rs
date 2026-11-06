@@ -92,7 +92,7 @@ impl AesGcmDecryptionImpl {
                     let result = String::from_utf8(decrypted_bytes).map_err(|_| AESError::FailedToDecrypt)?;
 
                     if !self.no_verbose {
-                        println!("Original (Hex): {}", text);
+                        println!("Original: {}", text);
                         println!("Result: {}", result);
                     } else {
                         println!("{}", result);
