@@ -49,7 +49,7 @@ impl AESGCMStrImpl {
 
         if self.gen_key {
             let mut file = OpenOptions::new()
-                .create(true)
+                .create_new(true)
                 .write(true)
                 .mode(0o600)
                 .open(FILE_NAME_AES_GCM_KEY)

@@ -4,6 +4,7 @@
 pub enum IOError {
     FailedToCreateFile,
     FailedToOpenFile,
+    FailedToReadFile,
     FailedToReadLines,
     FailedToWrite,
     FileAlreadyExists,

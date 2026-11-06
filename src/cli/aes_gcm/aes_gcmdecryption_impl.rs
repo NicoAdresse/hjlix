@@ -1,20 +1,33 @@
 // src/cli/aes_gcm/aes_gcmdecryption_impl.rs
 
+use std::path::{Path, PathBuf};
 use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
+use crate::cli::consts::constants::FILE_NAME_AES_GCM_KEY;
 use crate::cli::err::{aes_err::AESError, io_err::IOError};
-use crate::cli::traits::generate_aes_key::HjlixGenerateAESKey;
 use aes_gcm::{Nonce, Key, Aes128Gcm, Aes256Gcm, KeyInit, aead::Aead};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct AesGcmDecryptionImpl {
     ciphertexts: Vec<String>,
     aes_gcm_type: AESGCMTypes,
+    aes_key_file: PathBuf,
     no_verbose: bool,
 }
 
 impl AesGcmDecryptionImpl {
-    pub fn new(ciphertexts: Vec<String>, aes_gcm_type: AESGCMTypes, no_verbose: bool) -> Self {
-        Self { ciphertexts, aes_gcm_type, no_verbose }
+    pub fn new(ciphertexts: Vec<String>, aes_gcm_type: AESGCMTypes, aes_key_file: PathBuf, no_verbose: bool) -> Self {
+        Self { ciphertexts, aes_gcm_type, aes_key_file, no_verbose }
+    }
+
+    fn load_aes_key(&self, path: impl AsRef<Path>) -> anyhow::Result<Vec<u8>> {
+        let key = std::fs::read(path)
+            .map_err(|_| IOError::FailedToReadFile)?;
+
+        if key.is_empty() {
+            return Err(AESError::InvalidKeyLength.into());
+        }
+
+        Ok(key)
     }
 
     pub fn execute(&self) -> anyhow::Result<()> {
@@ -22,7 +35,7 @@ impl AesGcmDecryptionImpl {
             return Err(IOError::NoGivenFile.into());
         }
 
-        let key = self.aes_gcm_type.generate_key_for_aes_type();
+        let key = self.load_aes_key(FILE_NAME_AES_GCM_KEY)?;
         let aes_gcm_type = self.aes_gcm_type.figure_out_type(&key)
             .map_err(|_| AESError::FailedToFigureOutType)?;
 
