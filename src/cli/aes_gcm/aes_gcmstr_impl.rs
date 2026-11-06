@@ -9,7 +9,7 @@ use aes_gcm::aead::Aead;
 use aes_gcm::{Key, Aes128Gcm, Aes256Gcm, aead::Generate, Nonce};
 use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
 use crate::cli::err::aes_err::AESError;
-use crate::cli::consts::constants::{FILE_NAME_AES_GCM, FILE_NAME_AES_GCM_KEY};
+use crate::cli::consts::constants::{AESGCM_KEYFILE_HELP, FILE_NAME_AES_GCM, FILE_NAME_AES_GCM_KEY};
 use crate::cli::err::io_err::IOError;
 use crate::cli::traits::generate_aes_key::HjlixGenerateAESKey;
 
@@ -21,6 +21,7 @@ pub struct AESGCMStrImpl {
     optional_filename: Option<String>,
     no_verbose: bool,
     gen_key: bool,
+    clear_old_key: bool,
 }
 
 impl AESGCMStrImpl {
@@ -31,6 +32,7 @@ impl AESGCMStrImpl {
         optional_filename: Option<String>,
         no_verbose: bool,
         gen_key: bool,
+        clear_old_key: bool
     ) -> Self {
         Self {
             strings,
@@ -38,11 +40,17 @@ impl AESGCMStrImpl {
             write_into_file,
             optional_filename,
             no_verbose,
-            gen_key
+            gen_key,
+            clear_old_key
         }
     }
 
     pub fn execute(&self) -> anyhow::Result<()> {
+        if self.clear_old_key {
+            std::fs::remove_file(AESGCM_KEYFILE_HELP)
+                .map_err(|_| IOError::FileNotFound)?;
+        }
+
         let key = self.aes_gcm_type.generate_key_for_aes_type();
         let aes_gcm_type = self.aes_gcm_type.figure_out_type(&key)
             .map_err(|_| AESError::FailedToFigureOutType)?;
@@ -60,6 +68,7 @@ impl AESGCMStrImpl {
                 .map_err(|_| IOError::FailedToGetMetadata)?
                 .permissions();
             perms.set_mode(0o600);
+            
             file.set_permissions(perms)
                 .map_err(|_| IOError::FailedToSetPermissions)?;
             file.write_all(&key)
@@ -118,6 +127,11 @@ impl AESGCMStrImpl {
     }
 
     pub fn execute_write_into_file(&self) -> anyhow::Result<()> {
+        if self.clear_old_key {
+            std::fs::remove_file(AESGCM_KEYFILE_HELP)
+                .map_err(|_| IOError::FileNotFound)?;
+        }
+
         let key = self.aes_gcm_type.generate_key_for_aes_type();
         let aes_gcm_type = self.aes_gcm_type.figure_out_type(&key)
             .map_err(|_| AESError::FailedToFigureOutType)?;
@@ -141,6 +155,7 @@ impl AESGCMStrImpl {
                 .map_err(|_| IOError::FailedToGetMetadata)?
                 .permissions();
             perms.set_mode(0o600);
+
             file.set_permissions(perms)
                 .map_err(|_| IOError::FailedToSetPermissions)?;
             file.write_all(&key)

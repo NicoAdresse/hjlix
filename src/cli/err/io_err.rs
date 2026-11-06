@@ -10,6 +10,7 @@ pub enum IOError {
     FileAlreadyExists,
     FailedToFlushBufWriter,
     NoGivenFile,
+    FileNotFound,
     FailedToGetMetadata,
     FailedToSetPermissions,
 }
