@@ -85,8 +85,6 @@ pub enum Commands {
         no_verbose: bool,
         #[arg(short, long, default_value_t = false, help = AESGCM_KEY_GEN_HELP)]
         key_gen: bool,
-        #[arg(short, long, default_value_t = false, help = AESGCM_CLEAR_OLD_KEY_HELP)]
-        clear_old_key: bool,
     },
     /// Takes Strings from files and puts them into a AES-GCM cryptographic algorithm.
     AesGcmFile {
@@ -172,8 +170,7 @@ pub fn run_hjlix() {
             write_into_file,
             optional_filename,
             no_verbose,
-            key_gen,
-            clear_old_key
+            key_gen
         } => {
             let aes_impl = AESGCMStrImpl::new(
                 strings,
@@ -181,8 +178,7 @@ pub fn run_hjlix() {
                 write_into_file,
                 optional_filename,
                 no_verbose,
-                key_gen,
-                clear_old_key
+                key_gen
             );
 
             if !write_into_file {

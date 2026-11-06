@@ -16,4 +16,3 @@ pub const AESGCM_OPTIONAL_FILENAME_HELP: &str = "An optional filename that you c
 pub const NO_VERBOSE_HELP: &str = "Silence extra commentary.";
 pub const AESGCM_KEY_GEN_HELP: &str = "Saves your AES-Key in a file calleed '.aes_key'. DO NOT COMMIT THIS ON GITHUB OR ANY OTHER PLATFORM.";
 pub const AESGCM_KEYFILE_HELP: &str = "Use '.aes_key' to decrypt your encryption.";
-pub const AESGCM_CLEAR_OLD_KEY_HELP: &str = "This will clear out the old '.aes_key'.";
