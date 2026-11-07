@@ -111,15 +111,16 @@ pub enum Commands {
     Base64Encrypt {
         #[arg(required = true)]
         texts: Vec<String>,
-        #[arg(short, long, required = true)]
+        #[arg(short, long, required = true, help = BASE64_TYPE_HELP)]
         base64_type: Base64Types,
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
     },
+    /// Takes Encoded Strings and decodes them using Base64.
     Base64Decrypt {
         #[arg(required = true)]
         encoded_texts: Vec<String>,
-        #[arg(short, long, required = true)]
+        #[arg(short, long, required = true, help = BASE64_TYPE_HELP)]
         base64_type: Base64Types,
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
