@@ -3,6 +3,7 @@
 use crate::cli::aes_gcm::aes_gcmdecryption_impl::AesGcmDecryptionImpl;
 use crate::cli::aes_gcm::{aes_gcmstr_impl::AESGCMStrImpl, aes_gcmfile_impl::AesGcmFileImpl};
 use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
+use crate::cli::base64::base64_decryption_impl::Base64DecryptionImpl;
 use crate::cli::base64::base64_types::Base64Types;
 use crate::cli::base64::base64_encryption_impl::Base64EncryptionImpl;
 use crate::cli::consts::constants::*;
@@ -110,6 +111,14 @@ pub enum Commands {
     Base64Encrypt {
         #[arg(required = true)]
         texts: Vec<String>,
+        #[arg(short, long, required = true)]
+        base64_type: Base64Types,
+        #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
+        no_verbose: bool,
+    },
+    Base64Decrypt {
+        #[arg(required = true)]
+        encoded_texts: Vec<String>,
         #[arg(short, long, required = true)]
         base64_type: Base64Types,
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
@@ -227,6 +236,13 @@ pub fn run_hjlix() {
         Commands::Base64Encrypt { texts, base64_type, no_verbose } => {
             let base64_encryption_impl = Base64EncryptionImpl::new(texts, base64_type, no_verbose);
             base64_encryption_impl.execute();
+        },
+        Commands::Base64Decrypt { encoded_texts, base64_type, no_verbose } => {
+            let base64_decryption_impl = Base64DecryptionImpl::new(encoded_texts, base64_type, no_verbose);
+
+            if let Err(error) = base64_decryption_impl.execute() {
+                eprintln!("Error: {}", error);
+            }
         }
         Commands::About {} => {
             About::execute();
