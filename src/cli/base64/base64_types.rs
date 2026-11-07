@@ -2,7 +2,7 @@
 
 use std::default::Default;
 use clap::ValueEnum;
-use base64::{Engine as _, engine::{Config, general_purpose}};
+use base64::{Engine as _, engine::general_purpose};
 
 #[derive(Debug, Clone, PartialEq, ValueEnum, Default)]
 pub enum Base64Types {
