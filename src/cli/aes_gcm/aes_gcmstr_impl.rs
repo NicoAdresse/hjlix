@@ -44,7 +44,7 @@ impl AESGCMStrImpl {
 
     pub fn execute(&self) -> anyhow::Result<()> {
         let key = self.aes_gcm_type.generate_key_for_aes_type();
-        let aes_gcm_type = self.aes_gcm_type.figure_out_type(&key)
+        let aes_gcm_type = AESGCMTypes::figure_out_type(&key)
             .map_err(|_| AESError::FailedToFigureOutType)?;
 
         if self.gen_key {
@@ -127,7 +127,7 @@ impl AESGCMStrImpl {
 
     pub fn execute_write_into_file(&self) -> anyhow::Result<()> {
         let key = self.aes_gcm_type.generate_key_for_aes_type();
-        let aes_gcm_type = self.aes_gcm_type.figure_out_type(&key)
+        let aes_gcm_type = AESGCMTypes::figure_out_type(&key)
             .map_err(|_| AESError::FailedToFigureOutType)?;
 
         let filename = &self.optional_filename.clone().unwrap_or(FILE_NAME_AES_GCM.to_owned());

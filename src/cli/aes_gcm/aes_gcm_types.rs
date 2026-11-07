@@ -12,7 +12,7 @@ pub enum AESGCMTypes {
 }
 
 impl AESGCMTypes {
-    pub fn figure_out_type(&self, key: &[u8]) -> Result<Self, AESError> {
+    pub fn figure_out_type(key: &[u8]) -> Result<Self, AESError> {
         match key.len() {
             16 => Ok(AESGCMTypes::AES128GCM),
             32 => Ok(AESGCMTypes::AES256GCM),

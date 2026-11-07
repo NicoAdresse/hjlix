@@ -26,7 +26,7 @@ impl AesGcmFileImpl {
         }
 
         let key = self.aes_gcm_type.generate_key_for_aes_type();
-        let aes_gcm_type = self.aes_gcm_type.figure_out_type(&key)
+        let aes_gcm_type = AESGCMTypes::figure_out_type(&key)
             .map_err(|_| AESError::FailedToFigureOutType)?;
 
         match aes_gcm_type {
