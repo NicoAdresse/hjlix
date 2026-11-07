@@ -3,6 +3,8 @@
 use crate::cli::aes_gcm::aes_gcmdecryption_impl::AesGcmDecryptionImpl;
 use crate::cli::aes_gcm::{aes_gcmstr_impl::AESGCMStrImpl, aes_gcmfile_impl::AesGcmFileImpl};
 use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
+use crate::cli::base64::base64_types::Base64Types;
+use crate::cli::base64::base64_encryption_impl::Base64EncryptionImpl;
 use crate::cli::consts::constants::*;
 use crate::cli::misc::about::About;
 use crate::cli::sha2::sha2file_impl::Sha2FileImpl;
@@ -101,6 +103,15 @@ pub enum Commands {
         ciphertexts: Vec<String>,
         #[arg(short, long, required = true, help = AESGCM_KEYFILE_HELP)]
         key_file: PathBuf,
+        #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
+        no_verbose: bool,
+    },
+    /// Takes Strings and encrypts them using Base64.
+    Base64Encrypt {
+        #[arg(required = true)]
+        texts: Vec<String>,
+        #[arg(short, long, required = true)]
+        base64_type: Base64Types,
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
     },
@@ -212,6 +223,10 @@ pub fn run_hjlix() {
             if let Err(error) = aesdecrytion_impl.execute() {
                 eprintln!("Error: {}", error);
             }
+        },
+        Commands::Base64Encrypt { texts, base64_type, no_verbose } => {
+            let base64_encryption_impl = Base64EncryptionImpl::new(texts, base64_type, no_verbose);
+            base64_encryption_impl.execute();
         }
         Commands::About {} => {
             About::execute();
