@@ -2,3 +2,4 @@
 
 pub mod io_err;
 pub mod aes_err;
+pub mod base64_err;
