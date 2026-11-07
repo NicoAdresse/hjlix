@@ -1,0 +1,1 @@
+// src/cli/err/base64_err.rs
