@@ -22,7 +22,7 @@ impl Base64Types {
     pub fn encode(&self, data: &str) -> String {
         match self {
             Base64Types::Standard                   =>  general_purpose::STANDARD.encode(data),
-            Base64Types::StandardNoPad             =>  general_purpose::STANDARD_NO_PAD.encode(data),
+            Base64Types::StandardNoPad              =>  general_purpose::STANDARD_NO_PAD.encode(data),
             Base64Types::StandardNoPadIndifferent   =>  general_purpose::STANDARD_NO_PAD_INDIFFERENT.encode(data),
             Base64Types::StandardPadIndifferent     =>  general_purpose::STANDARD_PAD_INDIFFERENT.encode(data),
             Base64Types::UrlSafe                    =>  general_purpose::URL_SAFE.encode(data),
