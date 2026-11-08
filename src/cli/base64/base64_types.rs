@@ -35,7 +35,7 @@ impl Base64Types {
     pub fn decode(&self, data: &str) -> Result<Vec<u8>, Base64Error> {
         match self {
             Base64Types::Standard                   => Ok(general_purpose::STANDARD.decode(data).map_err(|_| Base64Error::FailedToDecode)?),
-            Base64Types::StandardNoPad             => Ok(general_purpose::STANDARD_NO_PAD.decode(data).map_err(|_| Base64Error::FailedToDecode)?),
+            Base64Types::StandardNoPad              => Ok(general_purpose::STANDARD_NO_PAD.decode(data).map_err(|_| Base64Error::FailedToDecode)?),
             Base64Types::StandardNoPadIndifferent   => Ok(general_purpose::STANDARD_NO_PAD_INDIFFERENT.decode(data).map_err(|_| Base64Error::FailedToDecode)?),
             Base64Types::StandardPadIndifferent     => Ok(general_purpose::STANDARD_PAD_INDIFFERENT.decode(data).map_err(|_| Base64Error::FailedToDecode)?),
             Base64Types::UrlSafe                    => Ok(general_purpose::URL_SAFE.decode(data).map_err(|_| Base64Error::FailedToDecode)?),

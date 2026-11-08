@@ -1,6 +1,6 @@
 # hjlix CLI Documentation
 
-`hjlix` is a command-line tool designed to provide fast, reliable cryptographic hashing and encryption for strings. It supports SHA-2, SHA-3 (including Keccak), and AES-GCM families.
+`hjlix` is a command-line tool designed to provide fast, reliable cryptographic hashing, encryption, and encoding for strings and files. It supports SHA-2, SHA-3 (including Keccak), AES-GCM, and Base64 families.
 
 ## Overview
 The tool is modularly organized. You can interact with it using specific subcommands.
@@ -16,6 +16,9 @@ The tool is modularly organized. You can interact with it using specific subcomm
   - `aes-gcm-str`: Encrypts input strings.
   - `aes-gcm-file`: Encrypts files.
   - `aes-gcm-decrypt`: Decrypts encrypted strings using a key file.
+- `base64`: Performs Base64 encoding and decryption (details in [base64.md](./base64/base64.md)).
+  - `base64-encrypt`: Encrypts/encodes input strings using Base64.
+  - `base64-decrypt`: Decrypts/decodes Base64 encoded strings.
 - `about`: Displays metadata about the project, including version and authorship.
 
 ### Examples
@@ -44,6 +47,15 @@ hjlix aes-gcm-file "path/to/file.txt" --aes-gcm-type aes256gcm
 hjlix aes-gcm-decrypt "hex-encoded-ciphertext" --key-file .aes_key
 ```
 
+**Base64:**
+```bash
+# Encrypt/encode strings using standard Base64
+hjlix base64-encrypt "Hello, World!" --base64-type standard
+
+# Decrypt/decode Base64 encoded strings
+hjlix base64-decrypt "SGVsbG8sIFdvcmxkIQ==" --base64-type standard
+```
+
 ### Global Options
 - `--write-into-file`: When provided, the output is saved to `file_with_sha.txt` (for hashes) or other relevant output files in the current directory instead of being printed to stdout.
 
@@ -60,6 +72,8 @@ hjlix aes-gcm-decrypt "hex-encoded-ciphertext" --key-file .aes_key
 ├── docs
 │   ├── aes-gcm
 │   │   └── aes-gcm.md
+│   ├── base64
+│   │   └── base64.md
 │   ├── cli.md
 │   ├── sha2
 │   │   └── sha2.md
@@ -76,12 +90,18 @@ hjlix aes-gcm-decrypt "hex-encoded-ciphertext" --key-file .aes_key
     │   │   ├── aes_gcmstr_impl.rs
     │   │   ├── aes_gcm_types.rs
     │   │   └── mod.rs
+    │   ├── base64
+    │   │   ├── base64_decryption_impl.rs
+    │   │   ├── base64_encryption_impl.rs
+    │   │   ├── base64_types.rs
+    │   │   └── mod.rs
     │   ├── consts
     │   │   ├── constants.rs
     │   │   └── mod.rs
     │   ├── entcli.rs
     │   ├── err
     │   │   ├── aes_err.rs
+    │   │   ├── base64_err.rs
     │   │   ├── io_err.rs
     │   │   └── mod.rs
     │   ├── misc
@@ -142,6 +162,7 @@ hjlix v0.1.4-2
 │               ├── crypto-common v0.2.2 (*)
 │               └── ctutils v0.4.8 (*)
 ├── anyhow v1.0.104
+├── base64 v0.23.1
 ├── clap v4.6.7
 │   ├── clap_builder v4.6.7
 │   │   ├── anstream v1.0.0
