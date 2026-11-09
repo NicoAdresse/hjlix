@@ -96,6 +96,7 @@ pub enum Commands {
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
     },
+    /// Takes encrypted Strings from files and decrypts them using AES-GCM.
     AesGcmDecryptFile {
         #[arg(required = true)]
         files: Vec<PathBuf>,
