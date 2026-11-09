@@ -40,7 +40,7 @@ hjlix <COMMAND>
 Computes the SHA-2 cryptographic hash of one or more strings.
 
 ```bash
-hjlix sha2-str <STRING>... --sha-type <SHA_TYPE> [--write-into-file]
+hjlix sha2-str <STRING>... --sha-type <SHA_TYPE>
 ```
 
 - `<STRING>...`: One or more input strings to hash.
@@ -57,7 +57,7 @@ hjlix sha2-str <STRING>... --sha-type <SHA_TYPE> [--write-into-file]
 Computes the SHA-3 or Keccak cryptographic hash of one or more strings.
 
 ```bash
-hjlix sha3-str <STRING>... --sha-type <SHA_TYPE> [--write-into-file]
+hjlix sha3-str <STRING>... --sha-type <SHA_TYPE>
 ```
 
 - `<STRING>...`: One or more input strings to hash.
@@ -78,7 +78,7 @@ Performs encryption and decryption using AES-GCM.
 
 **Encryption (Strings):**
 ```bash
-hjlix aes-gcm-str <STRING>... --aes-gcm-type <TYPE> [--write-into-file] [--key-gen]
+hjlix aes-gcm-str <STRING>... --aes-gcm-type <TYPE> [--key-gen]
 ```
 
 - `<STRING>...`: One or more input strings to encrypt.
