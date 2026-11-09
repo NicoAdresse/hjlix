@@ -7,8 +7,6 @@ pub enum IOError {
     FailedToReadFile,
     FailedToReadLines,
     FailedToWrite,
-    FileAlreadyExists,
-    FailedToFlushBufWriter,
     NoGivenFile,
     FileNotFound,
     FailedToGetMetadata,

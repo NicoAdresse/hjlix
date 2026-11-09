@@ -1,6 +1,7 @@
 // src/cli/entcli.rs
 
 use crate::cli::aes_gcm::aes_gcmdecryption_impl::AesGcmDecryptionImpl;
+use crate::cli::aes_gcm::aes_gcmdecryptionfile_impl::AesGcmDecryptionFileImpl;
 use crate::cli::aes_gcm::{aes_gcmstr_impl::AESGCMStrImpl, aes_gcmfile_impl::AesGcmFileImpl};
 use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
 use crate::cli::base64::base64_decryption_impl::Base64DecryptionImpl;
@@ -36,10 +37,6 @@ pub enum Commands {
         strings: Vec<String>,
         #[arg(short, long, required = true, help = SHA_TYPE_HELP)]
         sha_type: Sha2Types,
-        #[arg(short, long, default_value_t = false, help = SHA_WRITE_INTO_FILE_HELP)]
-        write_into_file: bool,
-        #[arg(short, long, help = SHA_OPTIONAL_FILENAME_HELP)]
-        optional_filename: Option<String>,
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
     },
@@ -58,10 +55,6 @@ pub enum Commands {
         strings: Vec<String>,
         #[arg(short, long, required = true, help = SHA_TYPE_HELP)]
         sha_type: Sha3Types,
-        #[arg(short, long, default_value_t = false, help = SHA_WRITE_INTO_FILE_HELP)]
-        write_into_file: bool,
-        #[arg(short, long, help = SHA_OPTIONAL_FILENAME_HELP)]
-        optional_filename: Option<String>,
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
     },
@@ -80,14 +73,10 @@ pub enum Commands {
         strings: Vec<String>,
         #[arg(short, long, required = true, help = AESGCM_TYPE_HELP)]
         aes_gcm_type: AESGCMTypes,
-        #[arg(short, long, default_value_t = false, help = AESGCM_WRITE_INTO_FILE_HELP)]
-        write_into_file: bool,
-        #[arg(short, long, help = AESGCM_OPTIONAL_FILENAME_HELP)]
-        optional_filename: Option<String>,
-        #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
-        no_verbose: bool,
         #[arg(short, long, default_value_t = false, help = AESGCM_KEY_GEN_HELP)]
         key_gen: bool,
+        #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
+        no_verbose: bool,
     },
     /// Takes Strings from files and puts them into a AES-GCM cryptographic algorithm.
     AesGcmFile {
@@ -102,6 +91,15 @@ pub enum Commands {
     AesGcmDecrypt {
         #[arg(required = true)]
         ciphertexts: Vec<String>,
+        #[arg(short, long, required = true, help = AESGCM_KEYFILE_HELP)]
+        key_file: PathBuf,
+        #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
+        no_verbose: bool,
+    },
+    /// Takes encrypted Strings from files and decrypts them using AES-GCM.
+    AesGcmDecryptFile {
+        #[arg(required = true)]
+        files: Vec<PathBuf>,
         #[arg(short, long, required = true, help = AESGCM_KEYFILE_HELP)]
         key_file: PathBuf,
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
@@ -136,15 +134,11 @@ pub fn run_hjlix() {
         Commands::Sha2Str {
             strings,
             sha_type,
-            write_into_file,
-            optional_filename,
             no_verbose
         } => {
             let sha_impl = Sha2StrImpl::new(
                 strings,
                 sha_type,
-                write_into_file,
-                optional_filename,
                 no_verbose
             );
 
@@ -162,15 +156,11 @@ pub fn run_hjlix() {
         Commands::Sha3Str {
             strings,
             sha_type,
-            write_into_file,
-            optional_filename,
             no_verbose
         } => {
             let sha_impl = Sha3StrImpl::new(
                 strings,
                 sha_type,
-                write_into_file,
-                optional_filename,
                 no_verbose
             );
 
@@ -188,28 +178,18 @@ pub fn run_hjlix() {
         Commands::AesGcmStr {
             strings,
             aes_gcm_type,
-            write_into_file,
-            optional_filename,
             no_verbose,
             key_gen
         } => {
             let aes_impl = AESGCMStrImpl::new(
                 strings,
                 aes_gcm_type,
-                write_into_file,
-                optional_filename,
                 no_verbose,
                 key_gen
             );
 
-            if !write_into_file {
-                if let Err(error) = aes_impl.execute() {
-                    eprintln!("Error: {}", error);
-                }
-            } else {
-                if let Err(error) = aes_impl.execute_write_into_file() {
-                    eprintln!("Error: {}", error);
-                }
+            if let Err(error) = aes_impl.execute() {
+                eprintln!("Error: {}", error);
             }
         },
         Commands::AesGcmFile { files, aes_gcm_type, no_verbose } => {
@@ -231,6 +211,13 @@ pub fn run_hjlix() {
             );
 
             if let Err(error) = aesdecrytion_impl.execute() {
+                eprintln!("Error: {}", error);
+            }
+        },
+        Commands::AesGcmDecryptFile { files, key_file, no_verbose } => {
+            let aes_gcm_decryption_file_impl = AesGcmDecryptionFileImpl::new(files, key_file, no_verbose);
+
+            if let Err(error) = aes_gcm_decryption_file_impl.execute() {
                 eprintln!("Error: {}", error);
             }
         },

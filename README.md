@@ -86,12 +86,12 @@ hjlix aes-gcm-str <STRING>... --aes-gcm-type <TYPE> [--write-into-file] [--key-g
 - `-w, --write-into-file`: Flag to write the resulting encrypted output into a file named `file_with_aes-gcm.txt`.
 - `-k, --key-gen`: Generates and saves the AES key to `.aes_key`.
 
-**Decryption (Strings):**
+**Decryption (Files):**
 ```bash
-hjlix aes-gcm-decrypt <CIPHERTEXT>... --key-file <KEY_FILE>
+hjlix aes-gcm-decrypt-file <FILE_PATH>... --key-file <KEY_FILE>
 ```
 
-- `<CIPHERTEXT>...`: One or more hex-encoded ciphertexts to decrypt.
+- `<FILE_PATH>...`: One or more paths to encrypted files to decrypt.
 - `-k, --key-file <KEY_FILE>`: Path to the file containing the AES key (e.g., `.aes_key`).
 
 #### `base64`
