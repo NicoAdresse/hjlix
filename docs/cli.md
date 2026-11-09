@@ -16,6 +16,7 @@ The tool is modularly organized. You can interact with it using specific subcomm
   - `aes-gcm-str`: Encrypts input strings.
   - `aes-gcm-file`: Encrypts files.
   - `aes-gcm-decrypt`: Decrypts encrypted strings using a key file.
+  - `aes-gcm-decrypt-file`: Decrypts encrypted files using a key file.
 - `base64`: Performs Base64 encoding and decryption (details in [base64.md](./base64/base64.md)).
   - `base64-encrypt`: Encrypts/encodes input strings using Base64.
   - `base64-decrypt`: Decrypts/decodes Base64 encoded strings.
