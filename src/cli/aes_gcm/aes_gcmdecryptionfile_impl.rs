@@ -2,10 +2,10 @@
 
 use std::fs::File;
 use std::path::{Path, PathBuf};
-use aes_gcm::{Nonce, Key, Aes128Gcm, Aes256Gcm, KeyInit, aead::{Generate, Aead}};
+use aes_gcm::{Nonce, Key, Aes128Gcm, Aes256Gcm, KeyInit, aead::Aead};
 use crate::cli::err::{io_err::IOError, aes_err::AESError};
 use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
-use std::io::{BufRead, BufReader, Read};
+use std::io::{BufRead, BufReader};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct AesGcmDecryptionFileImpl {
