@@ -73,11 +73,6 @@ pub enum Commands {
         strings: Vec<String>,
         #[arg(short, long, required = true, help = AESGCM_TYPE_HELP)]
         aes_gcm_type: AESGCMTypes,
-        #[arg(short, long, default_value_t = false, help = AESGCM_WRITE_INTO_FILE_HELP)]
-        write_into_file: bool,
-        #[arg(short, long, help = AESGCM_OPTIONAL_FILENAME_HELP)]
-        optional_filename: Option<String>,
-        #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
         #[arg(short, long, default_value_t = false, help = AESGCM_KEY_GEN_HELP)]
         key_gen: bool,
@@ -181,28 +176,18 @@ pub fn run_hjlix() {
         Commands::AesGcmStr {
             strings,
             aes_gcm_type,
-            write_into_file,
-            optional_filename,
             no_verbose,
             key_gen
         } => {
             let aes_impl = AESGCMStrImpl::new(
                 strings,
                 aes_gcm_type,
-                write_into_file,
-                optional_filename,
                 no_verbose,
                 key_gen
             );
 
-            if !write_into_file {
-                if let Err(error) = aes_impl.execute() {
-                    eprintln!("Error: {}", error);
-                }
-            } else {
-                if let Err(error) = aes_impl.execute_write_into_file() {
-                    eprintln!("Error: {}", error);
-                }
+            if let Err(error) = aes_impl.execute() {
+                eprintln!("Error: {}", error);
             }
         },
         Commands::AesGcmFile { files, aes_gcm_type, no_verbose } => {
