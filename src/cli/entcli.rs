@@ -37,10 +37,6 @@ pub enum Commands {
         strings: Vec<String>,
         #[arg(short, long, required = true, help = SHA_TYPE_HELP)]
         sha_type: Sha2Types,
-        #[arg(short, long, default_value_t = false, help = SHA_WRITE_INTO_FILE_HELP)]
-        write_into_file: bool,
-        #[arg(short, long, help = SHA_OPTIONAL_FILENAME_HELP)]
-        optional_filename: Option<String>,
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
     },
@@ -145,15 +141,11 @@ pub fn run_hjlix() {
         Commands::Sha2Str {
             strings,
             sha_type,
-            write_into_file,
-            optional_filename,
             no_verbose
         } => {
             let sha_impl = Sha2StrImpl::new(
                 strings,
                 sha_type,
-                write_into_file,
-                optional_filename,
                 no_verbose
             );
 
