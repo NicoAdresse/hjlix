@@ -125,7 +125,8 @@ pub enum Commands {
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
     },
-    ChaCha20Encrypt {
+    /// Takes strings and encodes them using ChaCha20.
+    ChaCha20Str {
         #[arg(required = true)]
         strings: Vec<String>,
         #[arg(short, long, required = true, help = CHACHA20_TYPES_HELP)]
@@ -244,7 +245,7 @@ pub fn run_hjlix() {
                 eprintln!("Error: {}", error);
             }
         },
-        Commands::ChaCha20Encrypt { strings, chacha20_type, key_gen, no_verbose } => {
+        Commands::ChaCha20Str { strings, chacha20_type, key_gen, no_verbose } => {
             let chacha20_encryption_impl = ChaCha20EncryptionImpl::new(strings, chacha20_type, no_verbose, key_gen);
 
             if let Err(error) = chacha20_encryption_impl.execute() {
