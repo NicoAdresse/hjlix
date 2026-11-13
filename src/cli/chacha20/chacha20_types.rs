@@ -41,6 +41,7 @@ impl ChaCha20Types {
         }
     }
 
+    #[allow(unused)]
     pub fn decrypt(&self, key: &[u8], nonce: &[u8], ciphertext: &[u8]) -> Result<Vec<u8>, Error> {
         let nonce = nonce.try_into().map_err(|_| Error)?;
 

@@ -10,5 +10,7 @@ pub const SHA_TYPE_HELP: &str = "The SHA algorithm you pick.";
 pub const AESGCM_TYPE_HELP: &str = "The AES-GCM algorithm you pick.";
 pub const NO_VERBOSE_HELP: &str = "Silence extra commentary.";
 pub const AESGCM_KEY_GEN_HELP: &str = "Saves your AES-Key in a file calleed '.aes_key'. DO NOT COMMIT THIS ON GITHUB OR ANY OTHER PLATFORM.";
+pub const CHACHA20_KEY_GEN_HELP: &str = "Saves your ChaCha20-Key in a file calleed '.chacha20_key'. DO NOT COMMIT THIS ON GITHUB OR ANY OTHER PLATFORM.";
 pub const AESGCM_KEYFILE_HELP: &str = "Use '.aes_key' to decrypt your encryption.";
 pub const BASE64_TYPE_HELP: &str = "The Base64 algorithm you pick.";
+pub const CHACHA20_TYPES_HELP: &str = "The ChaCha20 algorithm you pick.";
