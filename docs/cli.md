@@ -97,6 +97,10 @@ hjlix base64-decrypt "SGVsbG8sIFdvcmxkIQ==" --base64-type standard
     │   │   ├── base64_encryption_impl.rs
     │   │   ├── base64_types.rs
     │   │   └── mod.rs
+    │   ├── chacha20
+    │   │   ├── chacha20_encryption_impl.rs
+    │   │   ├── chacha20_types.rs
+    │   │   └── mod.rs
     │   ├── consts
     │   │   ├── constants.rs
     │   │   └── mod.rs
@@ -104,6 +108,7 @@ hjlix base64-decrypt "SGVsbG8sIFdvcmxkIQ==" --base64-type standard
     │   ├── err
     │   │   ├── aes_err.rs
     │   │   ├── base64_err.rs
+    │   │   ├── chacha20_err.rs
     │   │   ├── io_err.rs
     │   │   └── mod.rs
     │   ├── misc
@@ -123,6 +128,7 @@ hjlix base64-decrypt "SGVsbG8sIFdvcmxkIQ==" --base64-type standard
     │   └── traits
     │       ├── digest.rs
     │       ├── generate_aes_key.rs
+    │       ├── generate_chacha20_key.rs
     │       └── mod.rs
     └── main.rs
 ```
@@ -130,7 +136,7 @@ hjlix base64-decrypt "SGVsbG8sIFdvcmxkIQ==" --base64-type standard
 ### Cargo Tree
 
 ```txt
-hjlix v0.1.5-1
+hjlix v0.1.5-2
 ├── aes-gcm v0.11.1
 │   ├── aead v0.6.1
 │   │   ├── crypto-common v0.2.2
@@ -165,6 +171,16 @@ hjlix v0.1.5-1
 │               └── ctutils v0.4.8 (*)
 ├── anyhow v1.0.104
 ├── base64 v0.23.1
+├── chacha20poly1305 v0.11.0
+│   ├── aead v0.6.1 (*)
+│   ├── chacha20 v0.10.2
+│   │   ├── cfg-if v1.0.5
+│   │   ├── cipher v0.5.2 (*)
+│   │   └── cpufeatures v0.3.1
+│   ├── cipher v0.5.2 (*)
+│   └── poly1305 v0.9.1
+│       ├── cpufeatures v0.3.1
+│       └── universal-hash v0.6.1 (*)
 ├── clap v4.6.7
 │   ├── clap_builder v4.6.7
 │   │   ├── anstream v1.0.0

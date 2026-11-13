@@ -6,8 +6,8 @@ Here are all the currently supported versions of `hjlix`.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| <0.1.5.1   | :x:                |
-| 0.1.5-1    | :white_check_mark: |
+| <0.1.5.2   | :x:                |
+| 0.1.5-2    | :white_check_mark: |
 
 ## Reporting a Vulnerability
 
