@@ -1,7 +1,9 @@
 // src/cli/err/chacha20_err.rs
 
 #[derive(Debug, Clone, PartialEq)]
-pub enum ChaCha20Error {}
+pub enum ChaCha20Error {
+    FailedToCreateCipher,
+}
 
 impl std::error::Error for ChaCha20Error {}
 impl std::fmt::Display for ChaCha20Error {
