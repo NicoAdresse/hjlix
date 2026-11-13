@@ -1,10 +1,11 @@
 // src/cli/chacha20/chacha20_types.rs
 
-use clap::ValueEnum;
 use crate::cli::traits::generate_chacha20_key::GenerateChaCha20Key;
 use chacha20poly1305::{
-    ChaCha8Poly1305, ChaCha12Poly1305, ChaCha20Poly1305, aead::{Generate, Key, KeyInit}
+    ChaCha12Poly1305, ChaCha20Poly1305, ChaCha8Poly1305, Error,
+    aead::{Aead, Generate, Key, KeyInit},
 };
+use clap::ValueEnum;
 
 #[derive(Debug, Clone, PartialEq, ValueEnum)]
 pub enum ChaCha20Types {
@@ -20,33 +21,43 @@ pub enum ChaChaCipher {
 }
 
 impl ChaCha20Types {
-    pub fn create_cipher(&self, key: &[u8]) -> Result<ChaChaCipher, chacha20poly1305::Error> {
-        let key = Key::<ChaCha20Poly1305>::try_from(key).map_err(|_| chacha20poly1305::Error)?;
+    pub fn create_cipher(&self, key: &[u8]) -> Result<ChaChaCipher, Error> {
+        let key = Key::<ChaCha20Poly1305>::try_from(key).map_err(|_| Error)?;
 
         Ok(match self {
-            ChaCha20Types::ChaCha8Poly1305 => ChaChaCipher::ChaCha8Poly1305(ChaCha8Poly1305::new(&key)),
-            ChaCha20Types::ChaCha12Poly1305 => ChaChaCipher::ChaCha12Poly1305(ChaCha12Poly1305::new(&key)),
-            ChaCha20Types::ChaCha20Poly1305 => ChaChaCipher::ChaCha20Poly1305(ChaCha20Poly1305::new(&key)),
+            Self::ChaCha8Poly1305 => ChaChaCipher::ChaCha8Poly1305(ChaCha8Poly1305::new(&key)),
+            Self::ChaCha12Poly1305 => ChaChaCipher::ChaCha12Poly1305(ChaCha12Poly1305::new(&key)),
+            Self::ChaCha20Poly1305 => ChaChaCipher::ChaCha20Poly1305(ChaCha20Poly1305::new(&key)),
         })
     }
-}
 
+    pub fn encrypt(&self, key: &[u8], nonce: &[u8], plaintext: &[u8]) -> Result<Vec<u8>, Error> {
+        let nonce = nonce.try_into().map_err(|_| Error)?;
+
+        match self.create_cipher(key)? {
+            ChaChaCipher::ChaCha8Poly1305(c) => c.encrypt(&nonce, plaintext),
+            ChaChaCipher::ChaCha12Poly1305(c) => c.encrypt(&nonce, plaintext),
+            ChaChaCipher::ChaCha20Poly1305(c) => c.encrypt(&nonce, plaintext),
+        }
+    }
+
+    pub fn decrypt(&self, key: &[u8], nonce: &[u8], ciphertext: &[u8]) -> Result<Vec<u8>, Error> {
+        let nonce = nonce.try_into().map_err(|_| Error)?;
+
+        match self.create_cipher(key)? {
+            ChaChaCipher::ChaCha8Poly1305(c) => c.decrypt(&nonce, ciphertext),
+            ChaChaCipher::ChaCha12Poly1305(c) => c.decrypt(&nonce, ciphertext),
+            ChaChaCipher::ChaCha20Poly1305(c) => c.decrypt(&nonce, ciphertext),
+        }
+    }
+}
 
 impl GenerateChaCha20Key for ChaCha20Types {
     fn generate_chacha20_key(&self) -> Vec<u8> {
         match self {
-            ChaCha20Types::ChaCha8Poly1305 => {
-                let key = Key::<ChaCha8Poly1305>::generate();
-                key.to_vec()
-            },
-            ChaCha20Types::ChaCha12Poly1305 => {
-                let key = Key::<ChaCha12Poly1305>::generate();
-                key.to_vec()
-            },
-            ChaCha20Types::ChaCha20Poly1305 => {
-                let key = Key::<ChaCha20Poly1305>::generate();
-                key.to_vec()
-            },
+            ChaCha20Types::ChaCha8Poly1305 => Key::<ChaCha8Poly1305>::generate().to_vec(),
+            ChaCha20Types::ChaCha12Poly1305 => Key::<ChaCha12Poly1305>::generate().to_vec(),
+            ChaCha20Types::ChaCha20Poly1305 => Key::<ChaCha20Poly1305>::generate().to_vec(),
         }
     }
 }

@@ -2,7 +2,7 @@
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum ChaCha20Error {
-    FailedToCreateCipher,
+    FailedToEncrypt,
 }
 
 impl std::error::Error for ChaCha20Error {}
