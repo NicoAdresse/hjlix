@@ -123,6 +123,14 @@ pub enum Commands {
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
     },
+    ChaCha20Encrypt {
+        #[arg(required = true)]
+        strings: Vec<String>,
+        #[arg(short, long, default_value_t = false)]
+        key_gen: bool,
+        #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
+        no_verbose: bool,
+    },
     /// Tells the user what hjlix is.
     About {},
 }

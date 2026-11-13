@@ -1,6 +1,7 @@
 // src/cli/consts/constants.rs
 
 pub const FILE_NAME_AES_GCM_KEY: &str = ".aes_key";
+pub const FILE_NAME_CHACHA20_KEY: &str = ".chacha20_key";
 pub const SHA_STR_HELP: &str = "Your strings come here and will go through a SHA algorithm.";
 pub const SHA_FILE_HELP: &str = "Enter your filenames here and its contents will get processed inside a SHA algorithm.";
 pub const AESGCM_STR_HELP: &str = "Your strings come here and will go through an AES-GCM algorithm.";
