@@ -22,7 +22,7 @@ impl ChaCha20DecryptionImpl {
         let key = std::fs::read(path)
             .map_err(|_| IOError::FailedToReadFile)?;
 
-        if key.is_empty() {
+        if key.len() != 32 {
             return Err(ChaCha20Error::InvalidKeyLength.into());
         }
     
@@ -50,7 +50,7 @@ impl ChaCha20DecryptionImpl {
             
             let nonce = Nonce::try_from(nonce_bytes)
                 .map_err(|_| ChaCha20Error::FailedToGenerateNonce)?;
-            let decrypted_bytes = chacha20_type.decrypt(&key, &nonce, ciphertext.as_bytes())
+            let decrypted_bytes = chacha20_type.decrypt(&key, &nonce, encrypted_payload)
                 .map_err(|_| ChaCha20Error::FailedToDecrypt)?;
             let result = String::from_utf8(decrypted_bytes)
                 .map_err(|_| ChaCha20Error::FailedToDecrypt)?;
