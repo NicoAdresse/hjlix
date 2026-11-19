@@ -8,3 +8,9 @@ pub struct ChaCha20DecryptionImpl {
     chacha20_key_file: PathBuf,
     no_verbose: bool,
 }
+
+impl ChaCha20DecryptionImpl {
+    pub fn new(ciphertexts: Vec<String>, chacha20_key_file: PathBuf, no_verbose: bool) -> Self {
+        Self { ciphertexts, chacha20_key_file, no_verbose }
+    }
+}
