@@ -14,6 +14,7 @@ use crate::cli::sha2::{sha2str_impl::Sha2StrImpl, sha2_types::Sha2Types};
 use crate::cli::sha3::sha3file_impl::Sha3FileImpl;
 use crate::cli::sha3::{sha3str_impl::Sha3StrImpl, sha3_types::Sha3Types};
 use crate::cli::chacha20::chacha20_encryption_impl::ChaCha20EncryptionImpl;
+use crate::cli::chacha20::chacha20_decryption_impl::ChaCha20DecryptionImpl;
 use crate::cli::chacha20::chacha20_types::ChaCha20Types;
 use clap::{Parser, Subcommand};
 use std::path::PathBuf;
@@ -136,6 +137,15 @@ pub enum Commands {
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
     },
+    /// Takes encrypted strings and decodes them using ChaCha20.
+    ChaCha20Decrypt {
+        #[arg(required = true)]
+        ciphertexts: Vec<String>,
+        #[arg(short, long, required = true, help = CHACHA20_KEYFILE_HELP)]
+        chacha20_keyfile: PathBuf,
+        #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
+        no_verbose: bool,
+    },
     /// Tells the user what hjlix is.
     About {},
 }
@@ -249,6 +259,13 @@ pub fn run_hjlix() {
             let chacha20_encryption_impl = ChaCha20EncryptionImpl::new(strings, chacha20_type, no_verbose, key_gen);
 
             if let Err(error) = chacha20_encryption_impl.execute() {
+                eprintln!("Error: {}", error);
+            }
+        }
+        Commands::ChaCha20Decrypt { ciphertexts, chacha20_keyfile, no_verbose } => {
+            let chacha20_decryption_impl = ChaCha20DecryptionImpl::new(ciphertexts, chacha20_keyfile, no_verbose);
+
+            if let Err(error) = chacha20_decryption_impl.execute() {
                 eprintln!("Error: {}", error);
             }
         }
