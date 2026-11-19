@@ -1,6 +1,6 @@
 # hjlix CLI Documentation
 
-`hjlix` is a command-line tool designed to provide fast, reliable cryptographic hashing, encryption, and encoding for strings and files. It supports SHA-2, SHA-3 (including Keccak), AES-GCM, and Base64 families.
+`hjlix` is a command-line tool for cryptographic hashing, encryption, and encoding. It supports SHA-2, SHA-3 (including Keccak), AES-GCM, ChaCha20-Poly1305 variants, and Base64.
 
 ## Overview
 The tool is modularly organized. You can interact with it using specific subcommands.
@@ -17,6 +17,9 @@ The tool is modularly organized. You can interact with it using specific subcomm
   - `aes-gcm-file`: Encrypts files.
   - `aes-gcm-decrypt`: Decrypts encrypted strings using a key file.
   - `aes-gcm-decrypt-file`: Decrypts encrypted files using a key file.
+- `chacha20`: Encrypts and decrypts strings with ChaCha8/12/20-Poly1305 (details in [chacha20.md](./chacha20/chacha20.md)).
+  - `cha-cha20-str`: Encrypts input strings.
+  - `cha-cha20-decrypt`: Decrypts encrypted strings using a key file.
 - `base64`: Performs Base64 encoding and decryption (details in [base64.md](./base64/base64.md)).
   - `base64-encrypt`: Encrypts/encodes input strings using Base64.
   - `base64-decrypt`: Decrypts/decodes Base64 encoded strings.
@@ -48,6 +51,15 @@ hjlix aes-gcm-file "path/to/file.txt" --aes-gcm-type aes256gcm
 hjlix aes-gcm-decrypt "hex-encoded-ciphertext" --key-file .aes_key
 ```
 
+**ChaCha20-Poly1305:**
+```bash
+# Encrypt a string and create .chacha20_key
+hjlix cha-cha20-str "secret data" --chacha20-type cha-cha20-poly1305 --key-gen
+
+# Decrypt the resulting hex ciphertext using that key
+hjlix cha-cha20-decrypt "hex-encoded-ciphertext" --chacha20-keyfile .chacha20_key
+```
+
 **Base64:**
 ```bash
 # Encrypt/encode strings using standard Base64
@@ -75,6 +87,8 @@ hjlix base64-decrypt "SGVsbG8sIFdvcmxkIQ==" --base64-type standard
 │   │   └── aes-gcm.md
 │   ├── base64
 │   │   └── base64.md
+│   ├── chacha20
+│   │   └── chacha20.md
 │   ├── cli.md
 │   ├── sha2
 │   │   └── sha2.md
