@@ -25,10 +25,10 @@ impl ChaCha20EncryptionImpl {
     }
 
     pub fn execute(&self) -> anyhow::Result<()> {
-        let key = self.chacha20_type.generate_chacha20_key();
+        let path = Path::new(FILE_NAME_CHACHA20_KEY);
 
-        if self.gen_key {
-            let path = Path::new(FILE_NAME_CHACHA20_KEY);
+        let key = if self.gen_key {
+            let new_key = self.chacha20_type.generate_chacha20_key();
 
             if path.exists() {
                 std::fs::remove_file(path)
@@ -50,18 +50,33 @@ impl ChaCha20EncryptionImpl {
 
             file.set_permissions(perms)
                 .map_err(|_| IOError::FailedToSetPermissions)?;
-            file.write_all(&key)
+            file.write_all(&new_key)
                 .map_err(|_| IOError::FailedToWrite)?;
             file.sync_all()
                 .map_err(|_| IOError::FailedToWrite)?;
 
-        }
+            new_key
+        } else {
+            let existing_key = std::fs::read(path)
+                .map_err(|_| IOError::FailedToReadFile)?;
+
+            if existing_key.len() != 32 {
+                return Err(ChaCha20Error::InvalidKeyLength.into());
+            }
+
+            existing_key
+        };
 
         for text in &self.texts {
             let nonce = Nonce::generate();
             let ciphertext = self.chacha20_type.encrypt(&key, &nonce, text.as_bytes())
                 .map_err(|_| ChaCha20Error::FailedToEncrypt)?;
-            let result = hex::encode(ciphertext);
+
+            let mut combined = Vec::with_capacity(nonce.len() + ciphertext.len());
+            combined.extend_from_slice(&nonce);
+            combined.extend_from_slice(&ciphertext);
+
+            let result = hex::encode(combined);
 
             if !self.no_verbose {
                 println!("Original: {}", text);
