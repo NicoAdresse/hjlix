@@ -20,6 +20,39 @@ pub enum ChaChaCipher {
     ChaCha20Poly1305(ChaCha20Poly1305),
 }
 
+pub fn identify_chacha20_type(
+    key_bytes: &[u8],
+    nonce_bytes: &[u8],
+    ciphertext: &[u8],
+) -> Option<ChaCha20Types> {
+    let key_arr: &[u8; 32] = key_bytes.try_into().ok()?;
+    let nonce_arr: &[u8; 12] = nonce_bytes.try_into().ok()?;
+
+    if ChaCha20Poly1305::new(key_arr.into())
+        .decrypt(nonce_arr.into(), ciphertext)
+        .is_ok()
+    {
+        return Some(ChaCha20Types::ChaCha20Poly1305);
+    }
+
+    if ChaCha12Poly1305::new(key_arr.into())
+        .decrypt(nonce_arr.into(), ciphertext)
+        .is_ok()
+    {
+        return Some(ChaCha20Types::ChaCha12Poly1305);
+    }
+
+    if ChaCha8Poly1305::new(key_arr.into())
+        .decrypt(nonce_arr.into(), ciphertext)
+        .is_ok()
+    {
+        return Some(ChaCha20Types::ChaCha8Poly1305);
+    }
+
+    None
+}
+
+
 impl ChaCha20Types {
     pub fn create_cipher(&self, key: &[u8]) -> Result<ChaChaCipher, Error> {
         let key = Key::<ChaCha20Poly1305>::try_from(key).map_err(|_| Error)?;

@@ -3,6 +3,10 @@
 #[derive(Debug, Clone, PartialEq)]
 pub enum ChaCha20Error {
     FailedToEncrypt,
+    FailedToDecrypt,
+    FailedToFigureOutChaCha20Type,
+    InvalidKeyLength,
+    FailedToGenerateNonce,
 }
 
 impl std::error::Error for ChaCha20Error {}
