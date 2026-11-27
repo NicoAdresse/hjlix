@@ -125,6 +125,17 @@ pub enum Commands {
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
     },
+    /// Takes in files and encodes them using ChaCha20.
+    ChaCha20File {
+        #[arg(required = true)]
+        files: Vec<PathBuf>,
+        #[arg(short, long, required = true, help = CHACHA20_TYPES_HELP)]
+        chacha20_type: ChaCha20Types,
+        #[arg(short, long, default_value_t = false, help = CHACHA20_KEY_GEN_HELP)]
+        key_gen: bool,
+        #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
+        no_verbose: bool,
+    },
     /// Tells the user what hjlix is.
     About {},
 }
