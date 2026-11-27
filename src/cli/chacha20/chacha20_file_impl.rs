@@ -27,19 +27,19 @@ impl ChaCha20EncryptionFileImpl {
     pub fn execute(&self) -> anyhow::Result<()> {
         let path = Path::new(FILE_NAME_CHACHA20_KEY);
 
-        let key = if self.gen_key {
+        let key = if self.gen_key || !path.exists() {
             let new_key = self.chacha20_type.generate_chacha20_key();
 
-            if path.exists() {
-                std::fs::remove_file(path)
-                    .map_err(|_| IOError::FileNotFound)?;
+            if new_key.len() != 32 {
+                return Err(ChaCha20Error::InvalidKeyLength.into());
             }
 
             let mut file = OpenOptions::new()
-                .create_new(true)
+                .create(true)
                 .write(true)
+                .truncate(true)
                 .mode(0o600)
-                .open(FILE_NAME_CHACHA20_KEY)
+                .open(path)
                 .map_err(|_| IOError::FailedToCreateFile)?;
 
             let mut perms = file

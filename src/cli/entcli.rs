@@ -12,6 +12,7 @@ use crate::cli::sha3::sha3file_impl::Sha3FileImpl;
 use crate::cli::sha3::sha3str_impl::Sha3StrImpl;
 use crate::cli::chacha20::chacha20_encryption_impl::ChaCha20EncryptionImpl;
 use crate::cli::chacha20::chacha20_decryption_impl::ChaCha20DecryptionImpl;
+use crate::cli::chacha20::chacha20_file_impl::ChaCha20EncryptionFileImpl;
 use clap::Parser;
 use crate::cli::commands::Commands;
 
@@ -142,6 +143,13 @@ pub fn run_hjlix() {
             let chacha20_decryption_impl = ChaCha20DecryptionImpl::new(ciphertexts, chacha20_keyfile, no_verbose);
 
             if let Err(error) = chacha20_decryption_impl.execute() {
+                eprintln!("Error: {}", error);
+            }
+        }
+        Commands::ChaCha20File { files, chacha20_type, key_gen, no_verbose } => {
+            let chacha20_file_impl = ChaCha20EncryptionFileImpl::new(files, chacha20_type, key_gen, no_verbose);
+
+            if let Err(error) = chacha20_file_impl.execute() {
                 eprintln!("Error: {}", error);
             }
         }
