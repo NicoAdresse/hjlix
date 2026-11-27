@@ -3,21 +3,17 @@
 use crate::cli::aes_gcm::aes_gcmdecryption_impl::AesGcmDecryptionImpl;
 use crate::cli::aes_gcm::aes_gcmdecryptionfile_impl::AesGcmDecryptionFileImpl;
 use crate::cli::aes_gcm::{aes_gcmstr_impl::AESGCMStrImpl, aes_gcmfile_impl::AesGcmFileImpl};
-use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
 use crate::cli::base64::base64_decryption_impl::Base64DecryptionImpl;
-use crate::cli::base64::base64_types::Base64Types;
 use crate::cli::base64::base64_encryption_impl::Base64EncryptionImpl;
-use crate::cli::consts::constants::*;
 use crate::cli::misc::about::About;
 use crate::cli::sha2::sha2file_impl::Sha2FileImpl;
-use crate::cli::sha2::{sha2str_impl::Sha2StrImpl, sha2_types::Sha2Types};
+use crate::cli::sha2::sha2str_impl::Sha2StrImpl;
 use crate::cli::sha3::sha3file_impl::Sha3FileImpl;
-use crate::cli::sha3::{sha3str_impl::Sha3StrImpl, sha3_types::Sha3Types};
+use crate::cli::sha3::sha3str_impl::Sha3StrImpl;
 use crate::cli::chacha20::chacha20_encryption_impl::ChaCha20EncryptionImpl;
 use crate::cli::chacha20::chacha20_decryption_impl::ChaCha20DecryptionImpl;
-use crate::cli::chacha20::chacha20_types::ChaCha20Types;
-use clap::{Parser, Subcommand};
-use std::path::PathBuf;
+use clap::Parser;
+use crate::cli::commands::Commands;
 
 #[derive(Parser, Debug, Clone, PartialEq)]
 #[command(
