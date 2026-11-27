@@ -9,4 +9,5 @@ pub mod sha3;
 pub mod base64;
 pub mod chacha20;
 pub mod entcli;
+pub mod commands;
 pub mod traits;
