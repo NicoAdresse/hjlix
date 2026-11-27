@@ -92,8 +92,8 @@ pub fn run_hjlix() {
                 eprintln!("Error: {}", error);
             }
         },
-        Commands::AesGcmFile { files, aes_gcm_type, no_verbose } => {
-            let aesfile_impl = AesGcmFileImpl::new(files, aes_gcm_type, no_verbose);
+        Commands::AesGcmFile { files, aes_gcm_type, key_gen, no_verbose } => {
+            let aesfile_impl = AesGcmFileImpl::new(files, aes_gcm_type, key_gen, no_verbose);
 
             if let Err(error) = aesfile_impl.execute() {
                 eprintln!("Error: {}", error);

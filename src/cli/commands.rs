@@ -66,6 +66,8 @@ pub enum Commands {
         files: Vec<PathBuf>,
         #[arg(short, long, required = true, help = AESGCM_TYPE_HELP)]
         aes_gcm_type: AESGCMTypes,
+        #[arg(short, long, default_value_t = false, help = AESGCM_KEY_GEN_HELP)]
+        key_gen: bool,
         #[arg(short, long, default_value_t = false, help = NO_VERBOSE_HELP)]
         no_verbose: bool,
     },
