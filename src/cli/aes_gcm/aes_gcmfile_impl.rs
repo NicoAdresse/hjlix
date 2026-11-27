@@ -30,8 +30,12 @@ impl AesGcmFileImpl {
 
         let path = Path::new(FILE_NAME_AES_GCM_KEY);
 
-        let key = if self.gen_key || !path.exists() {
+        let key = if self.gen_key {
             let new_key = self.aes_gcm_type.generate_key_for_aes_type();
+
+            if new_key.len() != 16 && new_key.len() != 32 {
+                return Err(AESError::FailedToCreateKey.into());
+            }
 
             let mut file = OpenOptions::new()
                 .create(true)
@@ -55,9 +59,23 @@ impl AesGcmFileImpl {
                 .map_err(|_| IOError::FailedToWrite)?;
 
             new_key
+        } else if path.exists() {
+            let existing_key = std::fs::read(path)
+                .map_err(|_| IOError::FailedToReadFile)?;
+
+            if existing_key.len() != 16 && existing_key.len() != 32 {
+                return Err(AESError::FailedToCreateKey.into());
+            }
+
+            existing_key
         } else {
-            std::fs::read(path)
-                .map_err(|_| IOError::FailedToReadFile)?
+            let ephemeral_key = self.aes_gcm_type.generate_key_for_aes_type();
+
+            if ephemeral_key.len() != 16 && ephemeral_key.len() != 32 {
+                return Err(AESError::FailedToCreateKey.into());
+            }
+
+            ephemeral_key
         };
 
         let aes_gcm_type = AESGCMTypes::figure_out_type(&key)
@@ -80,7 +98,12 @@ impl AesGcmFileImpl {
                         let nonce = Nonce::generate();
                         let ciphertext = cipher.encrypt(&nonce, line.as_ref())
                             .map_err(|_| AESError::FailedToCreateCiphertext)?;
-                        let result = hex::encode(ciphertext);
+
+                        let mut combined = Vec::with_capacity(nonce.len() + ciphertext.len());
+                        combined.extend_from_slice(&nonce);
+                        combined.extend_from_slice(&ciphertext);
+
+                        let result = hex::encode(combined);
 
                         if !self.no_verbose {
                             println!("Original: {}", line);
@@ -107,7 +130,12 @@ impl AesGcmFileImpl {
                         let nonce = Nonce::generate();
                         let ciphertext = cipher.encrypt(&nonce, line.as_ref())
                             .map_err(|_| AESError::FailedToCreateCiphertext)?;
-                        let result = hex::encode(ciphertext);
+
+                        let mut combined = Vec::with_capacity(nonce.len() + ciphertext.len());
+                        combined.extend_from_slice(&nonce);
+                        combined.extend_from_slice(&ciphertext);
+
+                        let result = hex::encode(combined);
 
                         if !self.no_verbose {
                             println!("Original: {}", line);
