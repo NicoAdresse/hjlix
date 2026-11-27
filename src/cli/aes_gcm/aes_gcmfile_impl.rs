@@ -8,6 +8,7 @@ use aes_gcm::{Key, Nonce, aead::{Generate, Aead}, Aes128Gcm, Aes256Gcm, KeyInit}
 use crate::cli::aes_gcm::aes_gcm_types::AESGCMTypes;
 use crate::cli::err::{aes_err::AESError, io_err::IOError};
 use crate::cli::traits::generate_aes_key::HjlixGenerateAESKey;
+use crate::cli::consts::constants::FILE_NAME_AES_GCM_KEY;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct AesGcmFileImpl {
@@ -27,7 +28,7 @@ impl AesGcmFileImpl {
             return Err(IOError::NoGivenFile.into());
         }
 
-        let path = Path::new(".aes_key");
+        let path = Path::new(FILE_NAME_AES_GCM_KEY);
 
         let key = if self.gen_key || !path.exists() {
             let new_key = self.aes_gcm_type.generate_key_for_aes_type();
